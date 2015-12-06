@@ -8,16 +8,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
-
+    ListView profilelist;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        profilelist=(ListView) findViewById(R.id.profile_list);
+        toolbar.setTitle("Home");
+        toolbar.inflateMenu(R.menu.menu_main);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+       // if (id == R.id.action_settings) {
+       //     return true;
+       // }
 
         return super.onOptionsItemSelected(item);
     }
