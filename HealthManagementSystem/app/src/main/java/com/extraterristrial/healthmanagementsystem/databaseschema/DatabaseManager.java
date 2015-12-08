@@ -18,12 +18,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
     /*4*/public static final String PIC="use_pic";
     /*5*/public static final String RELATIONSHIP="relationship_status";
     /*6*/public static final String GENDER="gender";
+    /*7*/public static final String PHONE="contact";
+    /*8*/public static final String MAIL="e_mail";
 
     public static final String USER_TABLE="user";
     public static final String UPGRADE_USER_TABLE="DROP TABLE IF EXIST "+USER_TABLE;
 
     public static final String CREATE_TABLE_USER_INFO="create table "+USER_TABLE+"("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-            NAME+" TEXT, "+PIC+" blob, "+AGE+" TEXT, "+RELATIONSHIP+" TEXT, "+GENDER+" TEXT);";
+            NAME+" TEXT, "+PIC+" blob, "+AGE+" TEXT, "+RELATIONSHIP+" TEXT, "+GENDER+" TEXT, "+PHONE+" TEXT, "+MAIL+" TEXT);";
 
     public DatabaseManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -47,6 +49,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put(GENDER,info.getUserGender());
         values.put(RELATIONSHIP,info.getUserRelationshipStatus());
         values.put(PIC,info.getUserPic());
+        values.put(PHONE,info.getUserPhoneNo());
+        values.put(MAIL,info.getUserEmail());
         SQLiteDatabase db=getWritableInstance();
         int status=(int)db.insert(USER_TABLE,null,values);
         db.close();
