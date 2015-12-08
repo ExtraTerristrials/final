@@ -1,5 +1,9 @@
 package com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects;
 
+import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
+
 public class UserInformation {
     private String userName;
     private String userAge;
@@ -53,8 +57,10 @@ public class UserInformation {
         this.userRelationshipStatus = userRelationshipStatus;
     }
 
-    public void setUserPic(byte[] userPic) {
-        this.userPic = userPic;
+    public void setUserPic(Bitmap userPic) {
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        userPic.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+        this.userPic=byteArrayOutputStream.toByteArray();
     }
 
     public void setUserPhoneNo(String userPhoneNo) {
