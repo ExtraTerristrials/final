@@ -5,6 +5,7 @@
     <item
         android:id="@+id/add_profile"
         android:orderInCategory="100"
+        android:title="add your profile"
         android:icon="@drawable/addprofile"
         app:showAsAction="always" />
 </menu>
