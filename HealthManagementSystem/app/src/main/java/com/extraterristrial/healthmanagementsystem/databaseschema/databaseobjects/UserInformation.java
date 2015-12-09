@@ -59,8 +59,10 @@ public class UserInformation {
 
     public void setUserPic(Bitmap userPic) {
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-        userPic.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-        this.userPic=byteArrayOutputStream.toByteArray();
+        if (userPic!=null) {
+            userPic.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            this.userPic = byteArrayOutputStream.toByteArray();
+        }
     }
 
     public void setUserPhoneNo(String userPhoneNo) {
