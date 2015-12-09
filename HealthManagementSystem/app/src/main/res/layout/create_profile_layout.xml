@@ -119,7 +119,6 @@
         android:textAlignment="center"
         android:background="@drawable/edit_text_background"
         android:layout_below="@+id/profilegender"
-        android:entries="@array/gender"
         android:layout_centerHorizontal="true" />
 
     <TextView

@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,6 +43,9 @@ public class CreateProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.create_profile_layout, container, false);
         gender = (Spinner) view.findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> spinneradapter=ArrayAdapter.createFromResource(getContext(),R.array.gender,R.layout.spinner_item_layout);
+        spinneradapter.setDropDownViewResource(R.layout.spinner_item_layout);
+        gender.setAdapter(spinneradapter);
         gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
