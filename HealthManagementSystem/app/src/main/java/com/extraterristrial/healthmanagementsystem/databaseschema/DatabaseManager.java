@@ -2,10 +2,15 @@ package com.extraterristrial.healthmanagementsystem.databaseschema;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.BitmapFactory;
 
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.UserInformation;
+
+import java.util.ArrayList;
+import java.util.Currency;
 
 public class DatabaseManager extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION=1;
@@ -55,6 +60,32 @@ public class DatabaseManager extends SQLiteOpenHelper {
         int status=(int)db.insert(USER_TABLE,null,values);
         db.close();
         return status;
+    }
+    public ArrayList<UserInformation> getUserList(){
+        String sql="select "+NAME+", "+AGE+", "+MAIL+", "+GENDER+", "+PIC+" from "+USER_TABLE+";";
+        SQLiteDatabase db=getWritableInstance();
+        Cursor resultSet=db.rawQuery(sql, null);
+        ArrayList<UserInformation> infoList=new ArrayList<>();
+        UserInformation info;
+
+        resultSet.moveToFirst();
+        while(!resultSet.isAfterLast()){
+            info=new UserInformation();
+            info.setUserName(resultSet.getString(0));
+            info.setUserAge(resultSet.getString(1));
+            info.setUserEmail(resultSet.getString(2));
+            info.setUserGender(resultSet.getString(3));
+
+            byte[] arr=resultSet.getBlob(4);
+            info.setUserPic(BitmapFactory.decodeByteArray(arr,0,arr.length));
+            infoList.add(info);
+
+            resultSet.moveToNext();
+        }
+        resultSet.close();
+        db.close();
+
+        return infoList;
     }
     public SQLiteDatabase getWritableInstance(){
         return getWritableDatabase();
