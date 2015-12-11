@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBlack"
     android:layout_width="match_parent"
-    android:id="@+id/create_profile"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -11,166 +10,192 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Profile Name"
+                android:id="@+id/profilename"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Profile Name"
-        android:id="@+id/profilename"
-        android:layout_below="@+id/toolbar"
-        android:textColor="@color/colorGreen"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true" />
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="profilename"
+                android:textAlignment="center"
+                android:ems="10"
+                android:id="@+id/edit_profilename"
+                android:background="@drawable/edit_text_background"
+                android:textColor="@color/colorGray"
+                android:textStyle="italic"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profilename"
+                />
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="profilename"
-        android:textAlignment="center"
-        android:ems="10"
-        android:id="@+id/edit_profilename"
-        android:background="@drawable/edit_text_background"
-        android:textColor="@color/colorGray"
-        android:textStyle="italic"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/profilename"
-         />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Age"
+                android:id="@+id/profileage"
+                android:layout_below="@+id/edit_profilename"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Age"
-        android:id="@+id/profileage"
-        android:layout_below="@+id/edit_profilename"
-        android:textColor="@color/colorGreen"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true" />
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="Age"
+                android:ems="10"
+                android:background="@drawable/edit_text_background"
+                android:textColor="@color/colorGray"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:layout_below="@+id/profileage"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/edit_profileage" />
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:text="Age"
-        android:ems="10"
-        android:background="@drawable/edit_text_background"
-        android:textColor="@color/colorGray"
-        android:textAlignment="center"
-        android:textStyle="italic"
-        android:layout_below="@+id/profileage"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/edit_profileage" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Gender"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold"
+                android:id="@+id/profilegender"
+                android:layout_below="@+id/edit_profileage"
+                android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Gender"
-        android:textColor="@color/colorGreen"
-        android:textStyle="bold"
-        android:id="@+id/profilegender"
-        android:layout_below="@+id/edit_profileage"
-        android:layout_centerHorizontal="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Profile Picture"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold"
+                android:id="@+id/profilepicture"
+                android:layout_below="@+id/status_spinner"
+                android:layout_centerHorizontal="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Status/Relation"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold"
+                android:id="@+id/profilestatus"
+                android:layout_below="@+id/edit_email"
+                android:layout_centerHorizontal="true" />
+            <Spinner
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/status_spinner"
+                android:textAlignment="center"
+                android:background="@drawable/edit_text_background"
+                android:layout_below="@+id/profilestatus"
+                android:layout_centerHorizontal="true">
+            </Spinner>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:id="@+id/profileimage"
+                android:background="@drawable/edit_text_background"
+                android:layout_below="@+id/profilepicture"
+                android:layout_alignLeft="@+id/edit_email"
+                android:layout_alignStart="@+id/edit_email"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Profile Picture"
-        android:textColor="@color/colorGreen"
-        android:textStyle="bold"
-        android:id="@+id/profilepicture"
-        android:layout_below="@+id/edit_email"
-        android:layout_centerHorizontal="true" />
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/camera"
+                android:background="@mipmap/camera"
+                android:layout_alignBottom="@+id/profileimage"
+                android:layout_centerHorizontal="true" />
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/profileimage"
-        android:background="@drawable/edit_text_background"
-        android:layout_below="@+id/profilepicture"
-        android:layout_alignLeft="@+id/edit_email"
-        android:layout_alignStart="@+id/edit_email"
-        android:layout_marginTop="29dp" />
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/gallary"
+                android:background="@mipmap/file"
+                android:layout_alignTop="@+id/camera"
+                android:layout_toRightOf="@+id/profilepicture"
+                android:layout_toEndOf="@+id/profilepicture" />
 
-    <ImageButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/camera"
-        android:background="@drawable/camera"
-        android:layout_alignBottom="@+id/profileimage"
-        android:layout_centerHorizontal="true" />
+            <Spinner
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:textAlignment="center"
+                android:background="@drawable/edit_text_background"
+                android:layout_below="@+id/profilegender"
+                android:layout_centerHorizontal="true"
+                />
 
-    <ImageButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/gallary"
-        android:background="@drawable/file"
-        android:layout_alignTop="@+id/camera"
-        android:layout_toRightOf="@+id/profilepicture"
-        android:layout_toEndOf="@+id/profilepicture" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Mobile Number"
+                android:id="@+id/cellnumber"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold"
+                android:layout_below="@+id/spinner"
+                android:layout_centerHorizontal="true"
+                />
 
-    <Spinner
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:textAlignment="center"
-        android:background="@drawable/edit_text_background"
-        android:layout_below="@+id/profilegender"
-        android:layout_centerHorizontal="true" />
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/edit_profilenumber"
+                android:layout_below="@+id/cellnumber"
+                android:background="@drawable/edit_text_background"
+                android:textAlignment="center"
+                android:textColor="@color/colorGray"
+                android:textStyle="italic"
+                android:layout_centerHorizontal="true"
+                android:text="mobile number" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Mobile Number"
-        android:id="@+id/cellnumber"
-        android:textColor="@color/colorGreen"
-        android:textStyle="bold"
-        android:layout_below="@+id/spinner"
-        android:layout_centerHorizontal="true"
-         />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Email"
+                android:id="@+id/profileemail"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold"
+                android:layout_below="@+id/edit_profilenumber"
+                android:layout_centerHorizontal="true"
+                />
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:id="@+id/edit_profilenumber"
-        android:layout_below="@+id/cellnumber"
-        android:background="@drawable/edit_text_background"
-        android:textAlignment="center"
-        android:textColor="@color/colorGray"
-        android:textStyle="italic"
-        android:layout_centerHorizontal="true"
-        android:text="mobile number" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Email"
-        android:id="@+id/profileemail"
-        android:textColor="@color/colorGreen"
-        android:textStyle="bold"
-        android:layout_below="@+id/edit_profilenumber"
-        android:layout_centerHorizontal="true"
-        />
-
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:background="@drawable/edit_text_background"
-        android:textStyle="italic"
-        android:textColor="@color/colorGray"
-        android:textAlignment="center"
-        android:id="@+id/edit_email"
-        android:layout_below="@+id/profileemail"
-        android:layout_centerHorizontal="true"
-        android:text="email" />
-
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:background="@drawable/edit_text_background"
+                android:textStyle="italic"
+                android:textColor="@color/colorGray"
+                android:textAlignment="center"
+                android:id="@+id/edit_email"
+                android:layout_below="@+id/profileemail"
+                android:layout_centerHorizontal="true"
+                android:text="email" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

@@ -5,4 +5,20 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string-array name="relation">
+        <item>Master</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Brother</item>
+        <item>Sister</item>
+        <item>Daughter</item>
+        <item>Niece</item>
+        <item>Father_in_law</item>
+        <item>Mother_in_law</item>
+        <item>Brother_in_law</item>
+        <item>Sister_in_law</item>
+        <item>Uncle</item>
+        <item>Aunt</item>
+    </string-array>
+    <string name="title_activity_dash_board">DashBoardActivity</string>
 </resources>

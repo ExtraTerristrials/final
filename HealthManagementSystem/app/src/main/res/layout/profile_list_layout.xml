@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/colorBlack"
-    android:layout_height="match_parent">
-
-
+    android:background="@drawable/edit_text_background"
+    android:layout_height="100dp"
+    >
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:scaleType="fitXY"
         android:background="@drawable/edit_text_background"
         android:id="@+id/imageView" />
 
@@ -19,6 +19,7 @@
         android:textColor="@color/colorGray"
         android:textStyle="bold"
         android:id="@+id/name"
+        android:layout_marginLeft="5dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imageView" />
 
@@ -27,6 +28,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Email"
+        android:layout_marginLeft="5dp"
         android:id="@+id/email"
         android:textColor="@color/colorGray"
         android:textStyle="bold"
@@ -39,6 +41,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Gender"
+        android:layout_marginRight="5dp"
         android:id="@+id/textView"
         android:textColor="@color/colorGray"
         android:textStyle="bold"
@@ -50,11 +53,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Age"
+        android:layout_marginRight="5dp"
+        android:text=" Year"
         android:id="@+id/textView2"
         android:textColor="@color/colorGray"
-        android:textStyle="bold"
+        android:textStyle="italic"
         android:layout_alignTop="@+id/email"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/colorGray"
+        android:textStyle="bold"
+        android:text="Age"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toLeftOf="@+id/textView2"
+        android:layout_toStartOf="@+id/textView2" />
 </RelativeLayout>

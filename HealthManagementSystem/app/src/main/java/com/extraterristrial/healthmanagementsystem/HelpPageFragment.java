@@ -19,7 +19,7 @@ import android.widget.ViewFlipper;
 public class HelpPageFragment extends Fragment {
     Toolbar toolbar;
     ViewFlipper viewFlipper;
-    int image[]={R.drawable.addprofile,R.drawable.camera,R.drawable.file,R.drawable.save};
+    int image[]={R.mipmap.ptbutton,R.mipmap.camera,R.mipmap.file,R.mipmap.save,R.id.pt_button,R.id.help_button};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,16 +34,16 @@ public class HelpPageFragment extends Fragment {
                 {
                     Fragment createProfileFragment=new CreateProfileFragment();
                     FragmentManager fm=getActivity().getSupportFragmentManager();
-                    FragmentTransaction ft=fm.beginTransaction().replace(R.id.create_profile,createProfileFragment);
+                    FragmentTransaction ft=fm.beginTransaction().replace(R.id.main_layout,createProfileFragment);
                     ft.commit();
                 }
                 return true;
             }
         });
         viewFlipper=(ViewFlipper)view.findViewById(R.id.viewflipper);
-        for (int i=0;i<image.length;i++){
-            ImageView imageView=new ImageView(getActivity());
-            imageView.setImageResource(image[i]);
+        for (int anImage : image) {
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setImageResource(anImage);
             viewFlipper.addView(imageView);
         }
         viewFlipper.setAutoStart(true);

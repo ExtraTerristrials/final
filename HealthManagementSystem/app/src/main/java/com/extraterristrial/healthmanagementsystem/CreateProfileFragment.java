@@ -8,9 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,6 +26,7 @@ import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobject
 
 public class CreateProfileFragment extends Fragment {
     private Spinner gender;
+    private Spinner status;
     private EditText name;
     private EditText age;
     private EditText number;
@@ -43,9 +42,10 @@ public class CreateProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.create_profile_layout, container, false);
         gender = (Spinner) view.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> spinneradapter=ArrayAdapter.createFromResource(getContext(),R.array.gender,R.layout.spinner_item_layout);
-        spinneradapter.setDropDownViewResource(R.layout.spinner_item_layout);
-        gender.setAdapter(spinneradapter);
+        status=(Spinner)view.findViewById(R.id.status_spinner);
+        ArrayAdapter<CharSequence> genderadapter=ArrayAdapter.createFromResource(getContext(), R.array.gender, R.layout.spinner_item_layout);
+        genderadapter.setDropDownViewResource(R.layout.spinner_item_layout);
+        gender.setAdapter(genderadapter);
         gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -54,7 +54,21 @@ public class CreateProfileFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                gender.setSelection(0);
+            }
+        });
+        ArrayAdapter<CharSequence> statusadapter=ArrayAdapter.createFromResource(getContext(),R.array.relation,R.layout.spinner_item_layout);
+        statusadapter.setDropDownViewResource(R.layout.spinner_item_layout);
+        status.setAdapter(statusadapter);
+        status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                status.setSelection(position);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                status.setSelection(0);
             }
         });
         name = (EditText) view.findViewById(R.id.edit_profilename);
@@ -62,7 +76,7 @@ public class CreateProfileFragment extends Fragment {
         number = (EditText) view.findViewById(R.id.edit_profilenumber);
         email = (EditText) view.findViewById(R.id.edit_email);
         picture = (ImageView) view.findViewById(R.id.profileimage);
-        picture.setImageResource(R.drawable.nopreview);
+        picture.setImageResource(R.mipmap.noimage);
         camera = (ImageButton) view.findViewById(R.id.camera);
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +104,7 @@ public class CreateProfileFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.save_profile) {
                     saveValues();
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    Intent intent = new Intent(getActivity(), HomePageActivity.class);
                     startActivity(intent);
                 }
                 return true;
@@ -105,6 +119,7 @@ public class CreateProfileFragment extends Fragment {
         userInformation.setUserName(name.getText().toString());
         userInformation.setUserAge(age.getText().toString());
         userInformation.setUserGender(gender.toString());
+        userInformation.setUserRelationshipStatus(status.toString());
         userInformation.setUserEmail(email.getText().toString());
         userInformation.setUserPhoneNo(number.getText().toString());
         userInformation.setUserPic(bitmap);
@@ -146,7 +161,7 @@ public class CreateProfileFragment extends Fragment {
 
             }
         } catch (NullPointerException e) {
-
+            e.printStackTrace();
         }
     }
 }
