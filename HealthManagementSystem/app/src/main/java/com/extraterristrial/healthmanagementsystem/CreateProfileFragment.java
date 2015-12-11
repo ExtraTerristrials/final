@@ -118,8 +118,8 @@ public class CreateProfileFragment extends Fragment {
         UserInformation userInformation = new UserInformation();
         userInformation.setUserName(name.getText().toString());
         userInformation.setUserAge(age.getText().toString());
-        userInformation.setUserGender(gender.toString());
-        userInformation.setUserRelationshipStatus(status.toString());
+        userInformation.setUserGender(gender.getSelectedItem().toString());
+        userInformation.setUserRelationshipStatus(status.getSelectedItem().toString());
         userInformation.setUserEmail(email.getText().toString());
         userInformation.setUserPhoneNo(number.getText().toString());
         userInformation.setUserPic(bitmap);
