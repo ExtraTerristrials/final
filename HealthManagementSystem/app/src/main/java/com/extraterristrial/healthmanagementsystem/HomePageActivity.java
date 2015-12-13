@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,13 +21,13 @@ public class HomePageActivity extends AppCompatActivity {
     ListView profilelist;
     Toolbar toolbar;
     ProfileListAdapter adapter;
+    Bundle bundle=new Bundle();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         profilelist=(ListView) findViewById(R.id.profile_list);
-
         toolbar.setTitle("Home");
         toolbar.inflateMenu(R.menu.menu_main);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -54,8 +55,19 @@ public class HomePageActivity extends AppCompatActivity {
             adapter=new ProfileListAdapter(this,new DatabaseManager(this,null,null,DatabaseManager.DATABASE_VERSION).getUserList());
             profilelist.setAdapter(adapter);
         }catch(NullPointerException e){
-            Toast.makeText(this,"Profile List Empty",Toast.LENGTH_SHORT).show();
+            Fragment helpPageFragment=new HelpPageFragment();
+            bundle.putString("type","automatic");
+            helpPageFragment.setArguments(bundle);
+            FragmentManager fm=getSupportFragmentManager();
+            FragmentTransaction ft=fm.beginTransaction().add(R.id.main_layout,helpPageFragment);
+            ft.commit();
         }
+        profilelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
 
     }
     public void additional(View view)
@@ -65,6 +77,8 @@ public class HomePageActivity extends AppCompatActivity {
             case R.id.help_button:
             {
                 Fragment helpPageFragment=new HelpPageFragment();
+                bundle.putString("type","manual");
+                helpPageFragment.setArguments(bundle);
                 FragmentManager fm=getSupportFragmentManager();
                 FragmentTransaction ft=fm.beginTransaction().add(R.id.main_layout,helpPageFragment);
                 ft.commit();
