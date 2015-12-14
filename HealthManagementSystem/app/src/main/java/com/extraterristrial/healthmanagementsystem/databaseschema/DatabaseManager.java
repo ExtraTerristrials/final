@@ -90,4 +90,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public SQLiteDatabase getWritableInstance(){
         return getWritableDatabase();
     }
+    public void DeleteAll(){
+        String sql="delete from "+USER_TABLE;
+        SQLiteDatabase db=getWritableInstance();
+        db.execSQL(sql);
+        db.close();
+    }
 }
