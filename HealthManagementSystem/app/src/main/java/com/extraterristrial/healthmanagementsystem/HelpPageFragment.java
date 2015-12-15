@@ -1,5 +1,6 @@
 package com.extraterristrial.healthmanagementsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -33,19 +34,6 @@ public class HelpPageFragment extends Fragment {
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
         toolbar.setTitle("Help");
         toolbar.inflateMenu(R.menu.menu_main);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId()==R.id.add_profile)
-                {
-                    Fragment createProfileFragment=new CreateProfileFragment();
-                    FragmentManager fm=getActivity().getSupportFragmentManager();
-                    FragmentTransaction ft=fm.beginTransaction().replace(R.id.main_layout,createProfileFragment);
-                    ft.commit();
-                }
-                return true;
-            }
-        });
         viewFlipper=(ViewFlipper)view.findViewById(R.id.viewflipper);
         for (int anImage : image) {
             ImageView imageView = new ImageView(getActivity());
@@ -55,10 +43,34 @@ public class HelpPageFragment extends Fragment {
         }
         if (getArguments().getString("type").equals("automatic"))
         {
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId()==R.id.add_profile)
+                    {
+                        Fragment createProfileFragment=new CreateProfileFragment();
+                        FragmentManager fm=getActivity().getSupportFragmentManager();
+                        FragmentTransaction ft=fm.beginTransaction().replace(R.id.main_layout,createProfileFragment);
+                        ft.commit();
+                    }
+                    return true;
+                }
+            });
             viewFlipper.setAutoStart(true);
             viewFlipper.setFlipInterval(3000);
             viewFlipper.startFlipping();
         } else if (getArguments().getString("type").equals("manual")) {
+            toolbar.inflateMenu(R.menu.menu_help);
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.cross) {
+                        Intent intent = new Intent(getActivity(), HomePageActivity.class);
+                        startActivity(intent);
+                    }
+                    return true;
+                }
+            });
             viewFlipper.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
