@@ -68,6 +68,13 @@ public class HelpPageFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), HomePageActivity.class);
                         startActivity(intent);
                     }
+                    if (item.getItemId()==R.id.add_profile)
+                    {
+                        Fragment createProfileFragment=new CreateProfileFragment();
+                        FragmentManager fm=getActivity().getSupportFragmentManager();
+                        FragmentTransaction ft=fm.beginTransaction().replace(R.id.main_layout,createProfileFragment);
+                        ft.commit();
+                    }
                     return true;
                 }
             });
