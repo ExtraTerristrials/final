@@ -77,6 +77,7 @@ public class CreateProfileFragment extends Fragment {
         email = (EditText) view.findViewById(R.id.edit_email);
         picture = (ImageView) view.findViewById(R.id.profileimage);
         picture.setImageResource(R.mipmap.noimage);
+        bitmap=BitmapFactory.decodeResource(getResources(),R.mipmap.noimage);
         camera = (ImageButton) view.findViewById(R.id.camera);
         camera.setOnClickListener(new View.OnClickListener() {
             @Override

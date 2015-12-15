@@ -11,9 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.extraterristrial.healthmanagementsystem.databaseschema.DatabaseManager;
 
@@ -55,6 +53,7 @@ public class HomePageActivity extends AppCompatActivity {
             adapter=new ProfileListAdapter(this,new DatabaseManager(this,null,null,DatabaseManager.DATABASE_VERSION).getUserList());
             profilelist.setAdapter(adapter);
         }catch(NullPointerException e){
+            new DatabaseManager(this,null,null,DatabaseManager.DATABASE_VERSION).DeleteAll();
             Fragment helpPageFragment=new HelpPageFragment();
             bundle.putString("type","automatic");
             helpPageFragment.setArguments(bundle);

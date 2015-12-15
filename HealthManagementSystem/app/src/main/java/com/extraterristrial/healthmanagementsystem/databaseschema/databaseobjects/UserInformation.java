@@ -1,6 +1,7 @@
 package com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 
@@ -25,6 +26,18 @@ public class UserInformation {
         this.userGender = userGender;
     }
 
+    public void setUserRelationshipStatus(String userRelationshipStatus) {
+        this.userRelationshipStatus = userRelationshipStatus;
+    }
+
+    public void setUserPhoneNo(String userPhoneNo) {
+        this.userPhoneNo = userPhoneNo;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -44,32 +57,18 @@ public class UserInformation {
     public byte[] getUserPic() {
         return userPic;
     }
-
     public String getUserPhoneNo() {
         return userPhoneNo;
     }
-
     public String getUserEmail() {
         return userEmail;
     }
-
-    public void setUserRelationshipStatus(String userRelationshipStatus) {
-        this.userRelationshipStatus = userRelationshipStatus;
-    }
-
     public void setUserPic(Bitmap userPic) {
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
         if (userPic!=null) {
             userPic.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
             this.userPic = byteArrayOutputStream.toByteArray();
         }
-    }
-
-    public void setUserPhoneNo(String userPhoneNo) {
-        this.userPhoneNo = userPhoneNo;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+        //userPic= BitmapFactory.decodeResource(getResource(),R.)
     }
 }
