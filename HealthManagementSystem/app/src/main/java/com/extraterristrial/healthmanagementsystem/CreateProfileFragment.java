@@ -36,12 +36,18 @@ public class CreateProfileFragment extends Fragment {
     private ImageButton gallary;
     private Toolbar toolbar;
     private Bitmap bitmap;
+    private String origin;
+    private DatabaseManager db;
+    private  UserInformation userInformation;
+    private int position;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.create_profile_layout, container, false);
         gender = (Spinner) view.findViewById(R.id.spinner);
+        db = new DatabaseManager(getContext(), null, null, 1);
+        userInformation = new UserInformation();
         status=(Spinner)view.findViewById(R.id.status_spinner);
         ArrayAdapter<CharSequence> genderadapter=ArrayAdapter.createFromResource(getContext(), R.array.gender, R.layout.spinner_item_layout);
         genderadapter.setDropDownViewResource(R.layout.spinner_item_layout);
@@ -76,7 +82,6 @@ public class CreateProfileFragment extends Fragment {
         number = (EditText) view.findViewById(R.id.edit_profilenumber);
         email = (EditText) view.findViewById(R.id.edit_email);
         picture = (ImageView) view.findViewById(R.id.profileimage);
-        picture.setImageResource(R.mipmap.noimage);
         bitmap=BitmapFactory.decodeResource(getResources(),R.mipmap.noimage);
         camera = (ImageButton) view.findViewById(R.id.camera);
         camera.setOnClickListener(new View.OnClickListener() {
@@ -98,25 +103,57 @@ public class CreateProfileFragment extends Fragment {
             }
         });
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        toolbar.setTitle("Create Profile");
-        toolbar.inflateMenu(R.menu.menu_create_profile);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.save_profile) {
-                    saveValues();
-                    Intent intent = new Intent(getActivity(), HomePageActivity.class);
-                    startActivity(intent);
-                }
-                return true;
-            }
-        });
+        origin=getArguments().getString("origin");
+        switch (origin)
+        {
+            case "add" :
+            {
+                toolbar.setTitle("Create Profile");
+                toolbar.inflateMenu(R.menu.save_menu);
+                picture.setImageResource(R.mipmap.noimage);
+                toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.save_profile) {
+                            saveValues();
+                            db.Insert(userInformation);
+                            Intent intent = new Intent(getActivity(), HomePageActivity.class);
+                            startActivity(intent);
+                        }
+                        return true;
+                    }
+                });
+            }break;
+            case "edit" :
+            {
+                toolbar.setTitle("Edit Profile");
+                toolbar.inflateMenu(R.menu.save_menu);
+                position=getArguments().getInt("position");
+                name.setText(db.getUserList().get(position).getUserName());
+                age.setText(db.getUserList().get(position).getUserAge());
+                number.setText(db.getUserList().get(position).getUserPhoneNo());
+                email.setText(db.getUserList().get(position).getUserEmail());
+                gender.setPrompt(db.getUserList().get(position).getUserGender());
+                status.setPrompt(db.getUserList().get(position).getUserRelationshipStatus());
+                picture.setImageBitmap(BitmapFactory.decodeByteArray(db.getUserList().get(position).getUserPic(), 0, db.getUserList().get(position).getUserPic().length));
+                toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.save_profile) {
+                            saveValues();
+                            //db.update(userInformation);
+                            Intent intent = new Intent(getActivity(), HomePageActivity.class);
+                            startActivity(intent);
+                        }
+                        return true;
+                    }
+                });
+            }break;
+        }
         return view;
     }
 
     private void saveValues() {
-
-        UserInformation userInformation = new UserInformation();
         userInformation.setUserName(name.getText().toString());
         userInformation.setUserAge(age.getText().toString());
         userInformation.setUserGender(gender.getSelectedItem().toString());
@@ -124,8 +161,6 @@ public class CreateProfileFragment extends Fragment {
         userInformation.setUserEmail(email.getText().toString());
         userInformation.setUserPhoneNo(number.getText().toString());
         userInformation.setUserPic(bitmap);
-        DatabaseManager db = new DatabaseManager(getContext(), null, null, 1);
-        db.Insert(userInformation);
     }
 
     @Override

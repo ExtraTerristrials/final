@@ -1,5 +1,6 @@
 package com.extraterristrial.healthmanagementsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,14 +28,17 @@ public class HomePageActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         profilelist=(ListView) findViewById(R.id.profile_list);
         toolbar.setTitle("Home");
-        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.inflateMenu(R.menu.add_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.add_profile) {
                     Fragment createProfileFragment = new CreateProfileFragment();
                     FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction().add(R.id.main_layout, createProfileFragment);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("origin","add");
+                    createProfileFragment.setArguments(bundle);
+                    FragmentTransaction ft = fm.beginTransaction().add(R.id.home_layout, createProfileFragment);
                     ft.commit();
                 }
                 return true;
@@ -58,12 +62,15 @@ public class HomePageActivity extends AppCompatActivity {
             bundle.putString("type","automatic");
             helpPageFragment.setArguments(bundle);
             FragmentManager fm=getSupportFragmentManager();
-            FragmentTransaction ft=fm.beginTransaction().add(R.id.main_layout,helpPageFragment);
+            FragmentTransaction ft=fm.beginTransaction().add(R.id.home_layout,helpPageFragment);
             ft.commit();
         }
         profilelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getBaseContext(),DashBoardActivity.class);
+                intent.putExtra("position",position);
+                startActivity(intent);
 
             }
         });
@@ -79,7 +86,7 @@ public class HomePageActivity extends AppCompatActivity {
                 bundle.putString("type","manual");
                 helpPageFragment.setArguments(bundle);
                 FragmentManager fm=getSupportFragmentManager();
-                FragmentTransaction ft=fm.beginTransaction().add(R.id.main_layout,helpPageFragment);
+                FragmentTransaction ft=fm.beginTransaction().add(R.id.home_layout,helpPageFragment);
                 ft.commit();
             }break;
             case R.id.pt_button:
