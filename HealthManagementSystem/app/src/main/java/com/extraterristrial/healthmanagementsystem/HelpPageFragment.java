@@ -21,7 +21,7 @@ public class HelpPageFragment extends Fragment {
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private ViewFlipper viewFlipper;
     private final GestureDetector detector=new GestureDetector(new SwipeGestureDetector());
-    int image[]={R.mipmap.ptbutton,R.mipmap.camera,R.mipmap.file,R.mipmap.save,R.id.pt_button,R.id.help_button};
+    int image[]={R.mipmap.camera,R.mipmap.file,R.mipmap.save};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

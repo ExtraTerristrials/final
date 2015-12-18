@@ -36,30 +36,45 @@
         android:background="@color/colorBlack"
         android:layout_alignParentBottom="true"
         >
-        <ImageButton
+        <Button
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/help_button"
+            android:text="HELP"
+            android:textColor="@color/colorBlack"
             android:onClick="additional"
-            android:background="@mipmap/helpbutton"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:background="@drawable/button_background"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="20dp"
             />
-        <ImageButton
+        <Button
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@mipmap/ptbutton"
+            android:background="@drawable/button_background"
             android:id="@+id/pt_button"
+            android:textColor="@color/colorBlack"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:text="PT"
             android:onClick="additional"
             android:layout_centerHorizontal="true"
             />
-        <ImageButton
+        <Button
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@mipmap/adbutton"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:background="@drawable/button_background"
             android:onClick="additional"
+            android:textColor="@color/colorBlack"
             android:id="@+id/ad_button"
+            android:text="AID"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"

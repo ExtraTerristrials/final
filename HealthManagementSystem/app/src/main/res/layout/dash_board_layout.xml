@@ -19,7 +19,73 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorBlack"
         android:layout_alignParentBottom="true">
-
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_background"
+        android:src="@mipmap/health_button"
+        android:id="@+id/health_button"
+        android:onClick="profiledetail"
+        android:layout_marginLeft="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"/>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_background"
+            android:src="@mipmap/medicin_button"
+            android:id="@+id/medicin_button"
+            android:onClick="profiledetail"
+            android:layout_marginLeft="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/health_button"
+             />
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_background"
+            android:layout_marginLeft="16dp"
+            android:src="@mipmap/vaccin_button"
+            android:id="@+id/vaccin_button"
+            android:onClick="profiledetail"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/medicin_button"
+             />
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_background"
+            android:src="@mipmap/doctor_button"
+            android:layout_marginLeft="16dp"
+            android:id="@+id/doctor_button"
+            android:onClick="profiledetail"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/vaccin_button"
+            />
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_background"
+            android:src="@mipmap/medical_button"
+            android:layout_marginLeft="16dp"
+            android:id="@+id/medical_button"
+            android:onClick="profiledetail"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/doctor_button"
+             />
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_background"
+            android:src="@mipmap/diet_button"
+            android:id="@+id/diet_button"
+            android:layout_marginLeft="16dp"
+            android:onClick="profiledetail"
+            android:layout_marginRight="2dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 </RelativeLayout>
