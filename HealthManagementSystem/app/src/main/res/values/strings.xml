@@ -20,5 +20,10 @@
         <item>Uncle</item>
         <item>Aunt</item>
     </string-array>
+    <string-array name="general_medicine_rule">
+        <item>Before Having Food</item>
+        <item>After Having Food</item>
+        <item>None of The Above</item>
+    </string-array>
     <string name="title_activity_dash_board">DashBoardActivity</string>
 </resources>
