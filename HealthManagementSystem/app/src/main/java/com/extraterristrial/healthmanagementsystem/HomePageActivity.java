@@ -69,7 +69,7 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getBaseContext(),DashBoardActivity.class);
-                intent.putExtra("position",position);
+                intent.putExtra("profile_id",position);
                 startActivity(intent);
 
             }

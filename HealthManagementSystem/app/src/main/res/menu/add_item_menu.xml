@@ -3,14 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.extraterristrial.healthmanagementsystem.HomePageActivity">
-    <item android:title="delete profile"
-        android:id="@+id/delete_profile"
-        android:orderInCategory="200"
-        android:icon="@mipmap/remove_button"
-        app:showAsAction="always" />
-    <item android:title="edit profile"
-        android:id="@+id/edit_profile"
+    <item android:title="add item"
+        android:id="@+id/add_item"
         android:orderInCategory="100"
-        android:icon="@mipmap/edit_button"
+        android:icon="@mipmap/add_button"
         app:showAsAction="always" />
 </menu>

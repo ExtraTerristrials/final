@@ -20,10 +20,21 @@
         <item>Uncle</item>
         <item>Aunt</item>
     </string-array>
+<<<<<<< HEAD
     <string-array name="general_medicine_rule">
         <item>Before Having Food</item>
         <item>After Having Food</item>
         <item>None of The Above</item>
+=======
+    <string-array name="weekDay">
+        <item>Saturday</item>
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+>>>>>>> a47b1b7a366391f3741c91d71676084b6b86fc6c
     </string-array>
     <string name="title_activity_dash_board">DashBoardActivity</string>
 </resources>
