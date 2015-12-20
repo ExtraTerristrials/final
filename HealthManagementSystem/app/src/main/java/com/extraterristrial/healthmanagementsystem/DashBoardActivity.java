@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class DashBoardActivity extends AppCompatActivity {
-    private int position;
+    private int profile_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +18,12 @@ public class DashBoardActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("DashBoard");
         toolbar.inflateMenu(R.menu.edit_delete_menu);
-        position=getIntent().getExtras().getInt("position");
+        try {
+            profile_id = getIntent().getExtras().getInt("profile_id");
+        }catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -30,7 +35,7 @@ public class DashBoardActivity extends AppCompatActivity {
                         FragmentManager fm = getSupportFragmentManager();
                         Bundle bundle=new Bundle();
                         bundle.putString("origin","edit");
-                        bundle.putInt("position",position);
+                        bundle.putInt("profile_id",profile_id);
                         createProfileFragment.setArguments(bundle);
                         FragmentTransaction ft = fm.beginTransaction().add(R.id.dash_board_layout, createProfileFragment);
                         ft.commit();
@@ -51,7 +56,13 @@ public class DashBoardActivity extends AppCompatActivity {
         {
             case R.id.diet_button:
             {
-
+                Fragment dietFragment = new DietInfoFragment();
+                FragmentManager fm = getSupportFragmentManager();
+                Bundle bundle=new Bundle();
+                bundle.putInt("profile_id",profile_id);
+                dietFragment.setArguments(bundle);
+                FragmentTransaction ft = fm.beginTransaction().replace(R.id.detail_page_layout, dietFragment);
+                ft.commit();
             }break;
             case R.id.health_button:
             {

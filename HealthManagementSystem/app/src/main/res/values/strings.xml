@@ -20,5 +20,14 @@
         <item>Uncle</item>
         <item>Aunt</item>
     </string-array>
+    <string-array name="weekDay">
+        <item>Saturday</item>
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
     <string name="title_activity_dash_board">DashBoardActivity</string>
 </resources>
