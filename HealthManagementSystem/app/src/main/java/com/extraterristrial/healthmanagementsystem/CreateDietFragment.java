@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -175,6 +175,7 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
+        builder.setTitle(Html.fromHtml("<font color='#996600'>Set Food Items</font>"));
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -216,6 +217,7 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(titleBox);
+        builder.setTitle(Html.fromHtml("<font color='#996600'>Set Food Title</font>"));
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -243,6 +245,7 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
 
     private void showRepeatPicker() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(Html.fromHtml("<font color='#996600'>Set Repeat Day</font>"));
         builder.setMultiChoiceItems(R.array.weekDay, checkItem, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -284,6 +287,7 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
         final TimePicker timePicker = new TimePicker(getActivity());
         timePicker.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(Html.fromHtml("<font color='#996600'>Set Food Time</font>"));
         builder.setView(timePicker);
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
