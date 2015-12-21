@@ -67,6 +67,18 @@ public class CreateHealthFragment extends Fragment implements View.OnClickListen
         hight.setClickable(true);
         calori.setFocusable(true);
         calori.setClickable(true);
+        edit_bloodgroup.setClickable(true);
+        edit_bloodgroup.setFocusable(true);
+        edit_bloodpressure.setClickable(true);
+        edit_bloodpressure.setFocusable(true);
+        edit_bmi.setClickable(true);
+        edit_bmi.setFocusable(true);
+        edit_calori.setClickable(true);
+        edit_calori.setFocusable(true);
+        edit_hight.setClickable(true);
+        edit_hight.setFocusable(true);
+        edit_weight.setClickable(true);
+        edit_weight.setFocusable(true);
         try {
             showData(profile_id);
         }catch (NullPointerException e)

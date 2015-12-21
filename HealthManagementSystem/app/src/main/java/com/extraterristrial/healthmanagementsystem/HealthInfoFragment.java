@@ -1,5 +1,6 @@
 package com.extraterristrial.healthmanagementsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -52,6 +53,14 @@ public class HealthInfoFragment extends Fragment {
         }
                 toolbar.setTitle("Health");
                 toolbar.inflateMenu(R.menu.edit_menu);
+                toolbar.setNavigationIcon(R.mipmap.back_button);
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), DashBoardActivity.class);
+                startActivity(intent);
+            }
+        });
                 toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
