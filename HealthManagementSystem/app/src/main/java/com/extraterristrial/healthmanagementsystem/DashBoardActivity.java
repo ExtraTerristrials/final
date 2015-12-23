@@ -77,7 +77,7 @@ public class DashBoardActivity extends AppCompatActivity {
             }break;
             case R.id.medicin_button:
             {
-           
+                startActivity(new Intent(DashBoardActivity.this,MedicineActivity.class).putExtra("userId",profile_id));
 
             }break;
             case R.id.vaccin_button:

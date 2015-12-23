@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.Currency;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION=1;
+    public static final int DATABASE_VERSION=2;
     public static final String DATABASE_NAME="healthmanagement.db";
 
     //Coloumns of user table
     /*1*/public static final String ID="user_id";
-    /*2*/ public static final String NAME="user_name";
+    /*2*/public static final String NAME="user_name";
     /*3*/public static final String AGE="age";
     /*4*/public static final String PIC="use_pic";
     /*5*/public static final String RELATIONSHIP="relationship_status";

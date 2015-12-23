@@ -22,9 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 
-/**
- * Created by Jewel on 12/18/2015.
- */
+
 public class CreateDietFragment extends DialogFragment implements View.OnClickListener {
     View time;
     View title;
@@ -118,6 +116,7 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
     }
 
     private void saveDietInformation() {
+
 
     }
 
