@@ -17,7 +17,7 @@ public class DietDatabase {
     private Context context;
 
     //table
-    protected static final String DIET_TABLE="diet";
+    private static final String DIET_TABLE="diet";
 
     //Coloumns of diet  table
     /*1*/private static final String FOOD_TITLE="title";
@@ -33,7 +33,7 @@ public class DietDatabase {
             +"));";
 
     //table upgradation
-    protected static final String UPGRADE_DIET_TABLE="DROP TABLE IF EXIST "+DIET_TABLE;
+    protected static final String UPGRADE_DIET_TABLE="DROP TABLE IF EXISTS "+DIET_TABLE;
 
     public DietDatabase(Context context) {
         this.context=context;

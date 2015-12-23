@@ -25,13 +25,14 @@ public class HealthDatabase  {
     /*6*/private static final String CALORIE="calorie";
     /*7*/private static final String USER_ID="user_id";
     /*8*/private static final String DATE="date";
+    /*9*/private static final String TEMPERATURE="temperature";
 
     //upgrade commands
-    protected static final String UPGRADE_HEALTH_TABLE="DROP TABLE IF EXIST "+HEALTH_TABLE;
+    protected static final String UPGRADE_HEALTH_TABLE="DROP TABLE IF EXISTS "+HEALTH_TABLE;
 
     //table creation
     protected static final String CREATE_HEALTH_TABLE="CREATE TABLE "+HEALTH_TABLE+"("+USER_ID+" INTEGER, "+DATE+" TEXT, "
-            +BLOOD_GROUP+" TEXT, "+BLOOD_PRESSURE+" TEXT, "+HEIGHT+" TEXT, "+WEIGHT+" TEXT,"+BODY_MASS_INDEX+" TEXT, "+CALORIE+" TEXT, PRIMARY KEY("+DATE+","+USER_ID+"));";
+            +BLOOD_GROUP+" TEXT, "+BLOOD_PRESSURE+" TEXT, "+HEIGHT+" TEXT, "+WEIGHT+" TEXT,"+BODY_MASS_INDEX+" TEXT, "+TEMPERATURE+" TEXT, "+CALORIE+" TEXT, PRIMARY KEY("+DATE+","+USER_ID+"));";
 
     protected HealthDatabase(Context context) {
         dManager=new DatabaseManager(context,null,null,DatabaseManager.DATABASE_VERSION);
@@ -47,6 +48,7 @@ public class HealthDatabase  {
         values.put(WEIGHT,info.getWeight());
         values.put(BODY_MASS_INDEX,info.getBmi());
         values.put(CALORIE,info.getCalorie());
+        values.put(TEMPERATURE,info.getTemperature());
 
         int status=(int)db.insert(HEALTH_TABLE,null,values);
         db.close();
@@ -70,6 +72,7 @@ public class HealthDatabase  {
             hInfo.setCalorie(cursor.getString(cursor.getColumnIndex(CALORIE)));
             hInfo.setHeight(cursor.getString(cursor.getColumnIndex(HEIGHT)));
             hInfo.setWeight(cursor.getString(cursor.getColumnIndex(WEIGHT)));
+            hInfo.setTemperature(cursor.getString(cursor.getColumnIndex(TEMPERATURE)));
 
             //hList.add(hInfo);
             cursor.moveToNext();

@@ -12,6 +12,16 @@ public class HealthInformation {
     private String weight;
     private String calorie;
     private String date;
+    private String temperature;
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+
+        this.temperature = temperature;
+    }
 
     public String getDate() {
         return date;
