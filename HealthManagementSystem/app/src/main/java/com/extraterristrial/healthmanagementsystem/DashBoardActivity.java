@@ -1,5 +1,6 @@
 package com.extraterristrial.healthmanagementsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.extraterristrial.healthmanagementsystem.medicine.MedicineActivity;
 
 public class DashBoardActivity extends AppCompatActivity {
     private int profile_id;
@@ -86,6 +89,7 @@ public class DashBoardActivity extends AppCompatActivity {
             }break;
             case R.id.medicin_button:
             {
+                startActivity(new Intent(DashBoardActivity.this,MedicineActivity.class).putExtra("userId",profile_id));
 
             }break;
             case R.id.vaccin_button:

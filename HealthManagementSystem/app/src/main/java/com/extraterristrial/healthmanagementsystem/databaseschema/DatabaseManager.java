@@ -7,18 +7,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.BitmapFactory;
 
+import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.HealthInformation;
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.UserInformation;
 
 import java.util.ArrayList;
 import java.util.Currency;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION=1;
+    public static final int DATABASE_VERSION=3;
     public static final String DATABASE_NAME="healthmanagement.db";
 
     //Coloumns of user table
     /*1*/public static final String ID="user_id";
-    /*2*/ public static final String NAME="user_name";
+    /*2*/public static final String NAME="user_name";
     /*3*/public static final String AGE="age";
     /*4*/public static final String PIC="use_pic";
     /*5*/public static final String RELATIONSHIP="relationship_status";
@@ -27,7 +28,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     /*8*/public static final String MAIL="e_mail";
 
     public static final String USER_TABLE="user";
-    public static final String UPGRADE_USER_TABLE="DROP TABLE IF EXIST "+USER_TABLE;
+    public static final String UPGRADE_USER_TABLE="DROP TABLE IF EXISTS "+USER_TABLE;
 
     public static final String CREATE_TABLE_USER_INFO="create table "+USER_TABLE+"("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
             NAME+" TEXT, "+PIC+" blob, "+AGE+" TEXT, "+RELATIONSHIP+" TEXT, "+GENDER+" TEXT, "+PHONE+" TEXT, "+MAIL+" TEXT);";
@@ -39,11 +40,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USER_INFO);
+        db.execSQL(DietDatabase.CREATE_DIET_TABLE);
+        db.execSQL(HealthDatabase.CREATE_HEALTH_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(UPGRADE_USER_TABLE);
+        db.execSQL(HealthDatabase.UPGRADE_HEALTH_TABLE);
+        db.execSQL(DietDatabase.UPGRADE_DIET_TABLE);
         onCreate(db);
     }
 
