@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 public class DietItemFragment extends Fragment {
     private String pageTitle;
+    ListView dietList;
 
     public static DietItemFragment newInstance(String page) {
         Bundle args = new Bundle();
@@ -26,6 +28,7 @@ public class DietItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.diet_item_layout, container, false);
+        dietList=(ListView)view.findViewById(R.id.diet_list);
         return view;
     }
 }

@@ -12,27 +12,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Created by Jewel on 12/20/2015.
  */
 public class HealthInfoFragment extends Fragment {
-    EditText edit_bloodgroup,edit_bloodpressure,edit_hight,edit_weight,edit_bmi,edit_calori;
+    EditText edit_temperature,edit_bloodpressure,edit_hight,edit_weight,edit_bmi,edit_calori;
     Toolbar toolbar;
-    View bloodgroup,bloodpressure,hight,weight,bmi,calori;
+    View temperature,bloodpressure,hight,weight,bmi,calori;
+    TextView date;
     int profile_id;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.health_info_layout, container, false);
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
-        bloodgroup=view.findViewById(R.id.bloodGroup);
+        temperature=view.findViewById(R.id.bloodGroup);
         bloodpressure=view.findViewById(R.id.bloodPressure);
+        date=(TextView)view.findViewById(R.id.date);
         bmi=view.findViewById(R.id.bmi);
         hight=view.findViewById(R.id.hight);
         calori=view.findViewById(R.id.calori);
         weight=view.findViewById(R.id.weight);
-        edit_bloodgroup=(EditText)view.findViewById(R.id.edit_bloodgroup);
+        edit_temperature=(EditText)view.findViewById(R.id.edit_temperature);
         edit_bloodpressure=(EditText)view.findViewById(R.id.edit_bloodpressure);
         edit_hight=(EditText)view.findViewById(R.id.edit_hight);
         edit_weight=(EditText)view.findViewById(R.id.edit_weight);
@@ -49,10 +52,10 @@ public class HealthInfoFragment extends Fragment {
             edit_weight.setText("Not Set");
             edit_hight.setText("Not Set");
             edit_bloodpressure.setText("Not Set");
-            edit_bloodgroup.setText("Not Set");
+            edit_temperature.setText("Not Set");
         }
                 toolbar.setTitle("Health");
-                toolbar.inflateMenu(R.menu.edit_menu);
+                toolbar.inflateMenu(R.menu.add_item_menu);
                 toolbar.setNavigationIcon(R.mipmap.back_button);
                 toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
