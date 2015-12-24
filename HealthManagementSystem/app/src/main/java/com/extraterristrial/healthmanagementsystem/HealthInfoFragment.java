@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.extraterristrial.healthmanagementsystem.databaseschema.HealthDatabase;
+import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.HealthInformation;
+
 /**
  * Created by Jewel on 12/20/2015.
  */
@@ -23,11 +26,15 @@ public class HealthInfoFragment extends Fragment {
     View temperature,bloodpressure,hight,weight,bmi,calori;
     TextView date;
     int profile_id;
+    HealthInformation healthInformation;
+    HealthDatabase healthDatabase;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.health_info_layout, container, false);
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
+        healthDatabase=new HealthDatabase(getActivity());
+        healthInformation=new HealthInformation();
         temperature=view.findViewById(R.id.bloodGroup);
         bloodpressure=view.findViewById(R.id.bloodPressure);
         date=(TextView)view.findViewById(R.id.date);
@@ -81,6 +88,23 @@ public class HealthInfoFragment extends Fragment {
     }
 
     private void showData(int profile_id) {
-
+        try {
+          //  healthInformation=healthDatabase.getHealthData(profile_id);     //  remove date from method parameter
+            edit_bloodpressure.setText(healthInformation.getBloodPressure());
+            edit_temperature.setText(healthInformation.getBloodGroup());
+            edit_weight.setText(healthInformation.getWeight());
+            edit_hight.setText(healthInformation.getHeight());
+            edit_bmi.setText(healthInformation.getBmi());
+            edit_calori.setText(healthInformation.getCalorie());
+            date.setText(healthInformation.getDate());
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            edit_calori.setText("Not Set");
+            edit_bmi.setText("Not Set");
+            edit_weight.setText("Not Set");
+            edit_hight.setText("Not Set");
+            edit_bloodpressure.setText("Not Set");
+            edit_temperature.setText("Not Set");
+        }
     }
 }

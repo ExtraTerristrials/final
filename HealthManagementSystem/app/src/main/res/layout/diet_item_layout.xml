@@ -3,6 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/colorBlack"
     android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/diet_weekday"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="Not Set"
+        android:textColor="@color/colorRed"/>
 <ListView
     android:layout_width="match_parent"
     android:layout_height="match_parent"

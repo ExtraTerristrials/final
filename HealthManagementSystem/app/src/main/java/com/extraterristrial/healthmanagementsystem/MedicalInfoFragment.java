@@ -1,6 +1,9 @@
 package com.extraterristrial.healthmanagementsystem;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +18,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.extraterristrial.healthmanagementsystem.databaseschema.MedicalDetabase;
+import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.MedicalInformation;
 
 /**
  * Created by Jewel on 12/22/2015.
@@ -26,11 +33,15 @@ public class MedicalInfoFragment extends Fragment {
     ImageButton callButton,browserButton;
     TextView medicalName,medicalAddress,mediacContacts,medicalEmail,medicalWebsite;
     int profile_id;
+    MedicalInformation medicalInformation;
+    MedicalDetabase medicalDetabase;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.medical_info_layout,container,false);
+        medicalInformation=new MedicalInformation();
+        medicalDetabase=new MedicalDetabase();
         medicalImage=(ImageView)view.findViewById(R.id.picture_medical);
         mapButton=(Button)view.findViewById(R.id.medical_map_button);
         callButton=(ImageButton)view.findViewById(R.id.call_button);
@@ -102,8 +113,45 @@ public class MedicalInfoFragment extends Fragment {
         }
         return view;
     }
+    public void medical(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.call_button:
+            {
+                try {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:"+mediacContacts.getText().toString()));
+                    startActivity(callIntent);
+                } catch (ActivityNotFoundException activityException) {
+                    Toast.makeText(getActivity(), "Call failed.", Toast.LENGTH_SHORT);
+                }
+            }break;
+            case R.id.browser_button:
+            {
+                try {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    Uri u = Uri.parse(medicalWebsite.getText().toString());
+                    i.setData(u);
+                }catch (ActivityNotFoundException e)
+                {
+                    Toast.makeText(getActivity(), "Browser not found.", Toast.LENGTH_SHORT);
+                }
+            }break;
+            case R.id.medical_map_button:
+            {
+
+            }
+        }
+    }
 
     private void showData() {
-
+        // medicalInformation == database.......
+        medicalName.setText(medicalInformation.getName());
+        medicalAddress.setText(medicalInformation.getAddress());
+        mediacContacts.setText(medicalInformation.getContacts());
+        medicalEmail.setText(medicalInformation.getEmail());
+        medicalWebsite.setText(medicalInformation.getWebpage());
+        medicalImage.setImageBitmap(BitmapFactory.decodeByteArray(medicalInformation.getMedicalPic(), 0, medicalInformation.getMedicalPic().length));
     }
 }

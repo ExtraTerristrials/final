@@ -20,6 +20,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.extraterristrial.healthmanagementsystem.databaseschema.MedicalDetabase;
+import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.MedicalInformation;
+
 /**
  * Created by Jewel on 12/22/2015.
  */
@@ -30,12 +33,16 @@ public class CreateMedicalFragment extends Fragment {
     ImageButton gallary;
     int profile_id;
     EditText editMedicalName,editMedicalAddress,editMedicalContacts,editMedicalEmail,editMedicalWebsite;
+    MedicalInformation medicalInformation;
+    MedicalDetabase medicalDetabase;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.create_medical_layout,container,false);
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
+        medicalInformation=new MedicalInformation();
+        medicalDetabase=new MedicalDetabase();
         editmedicalPicture=(ImageView)view.findViewById(R.id.picture_medical);
         camera=(ImageButton)view.findViewById(R.id.camera);
         gallary=(ImageButton)view.findViewById(R.id.gallary);
@@ -97,11 +104,23 @@ public class CreateMedicalFragment extends Fragment {
     }
 
     private void saveData() {
-
+        medicalInformation.setName(editMedicalName.getText().toString());
+        medicalInformation.setAddress(editMedicalAddress.getText().toString());
+        medicalInformation.setContacts(editMedicalContacts.getText().toString());
+        medicalInformation.setEmail(editMedicalEmail.getText().toString());
+        medicalInformation.setWebpage(editMedicalWebsite.getText().toString());
+        medicalInformation.setProfile_id(profile_id);
+        //insert in database
     }
 
     private void showData() {
-
+       // medicalInformation == database.......
+        editMedicalName.setText(medicalInformation.getName());
+        editMedicalAddress.setText(medicalInformation.getAddress());
+        editMedicalContacts.setText(medicalInformation.getContacts());
+        editMedicalEmail.setText(medicalInformation.getEmail());
+        editMedicalWebsite.setText(medicalInformation.getWebpage());
+        editmedicalPicture.setImageBitmap(BitmapFactory.decodeByteArray(medicalInformation.getMedicalPic(),0,medicalInformation.getMedicalPic().length));
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

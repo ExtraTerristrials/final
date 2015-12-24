@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class DietInfoFragment extends Fragment {
-    int profile_id;
+    public static int profile_id;
     Toolbar toolbar;
     @Nullable
     @Override
@@ -56,7 +56,7 @@ public class DietInfoFragment extends Fragment {
             }
         });
         TabLayout tab=(TabLayout)view.findViewById(R.id.tab);
-        viewPager.setAdapter(new DietPagerAdapter(getActivity().getSupportFragmentManager()));
+        viewPager.setAdapter(new DietPagerAdapter(getActivity().getSupportFragmentManager(),profile_id));
         tab.setupWithViewPager(viewPager);
         return view;
     }

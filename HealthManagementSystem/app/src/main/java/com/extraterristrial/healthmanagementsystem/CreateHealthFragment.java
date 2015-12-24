@@ -13,6 +13,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.extraterristrial.healthmanagementsystem.databaseschema.HealthDatabase;
+import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.HealthInformation;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Jewel on 12/20/2015.
  */
@@ -20,20 +27,27 @@ public class CreateHealthFragment extends Fragment{
     EditText edit_temperature,edit_bloodpressure,edit_hight,edit_weight,edit_bmi,edit_calori;
     Toolbar toolbar;
     int profile_id;
+    String date;
+    HealthInformation healthInformation;
+    HealthDatabase healthDatabase;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.create_health_layout,container,false);
+        View view=inflater.inflate(R.layout.create_health_layout, container, false);
         profile_id=getArguments().getInt("profile_id");
-
+        healthInformation=new HealthInformation();
+        Date now=Calendar.getInstance().getTime();
+        date=new SimpleDateFormat("yyyy-MM-dd").format(now);
+        healthDatabase=new HealthDatabase(getActivity());
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
         toolbar.setTitle("Add Daily Health");
         toolbar.inflateMenu(R.menu.save_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+
                 saveData(profile_id);
                 Fragment healthInfoFragment = new HealthInfoFragment();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -67,10 +81,28 @@ public class CreateHealthFragment extends Fragment{
     }
 
     private void showData(int profile_id) {
+        try {
+            healthInformation=healthDatabase.getHealthData(profile_id,date);
+            edit_bloodpressure.setText(healthInformation.getBloodPressure());
+            edit_temperature.setText(healthInformation.getBloodGroup());
+            edit_weight.setText(healthInformation.getWeight());
+            edit_hight.setText(healthInformation.getHeight());
+            edit_bmi.setText(healthInformation.getBmi());
+            edit_calori.setText(healthInformation.getCalorie());
+        }catch (NullPointerException e){
 
+        }
     }
 
     private void saveData(int profile_id) {
-
+        healthInformation.setBmi(edit_bmi.getText().toString());
+        healthInformation.setCalorie(edit_calori.getText().toString());
+        healthInformation.setBloodPressure(edit_bloodpressure.getText().toString());
+        healthInformation.setHeight(edit_hight.getText().toString());
+        healthInformation.setWeight(edit_weight.getText().toString());
+        healthInformation.setBloodGroup(edit_temperature.getText().toString());
+        healthInformation.setUserId(profile_id);
+        healthInformation.setDate(date);
+        healthDatabase.InsertHealthInfo(healthInformation);
     }
 }

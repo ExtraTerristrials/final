@@ -34,7 +34,7 @@ public class HealthDatabase  {
     protected static final String CREATE_HEALTH_TABLE="CREATE TABLE "+HEALTH_TABLE+"("+USER_ID+" INTEGER, "+DATE+" TEXT, "
             +BLOOD_GROUP+" TEXT, "+BLOOD_PRESSURE+" TEXT, "+HEIGHT+" TEXT, "+WEIGHT+" TEXT,"+BODY_MASS_INDEX+" TEXT, "+TEMPERATURE+" TEXT, "+CALORIE+" TEXT, PRIMARY KEY("+DATE+","+USER_ID+"));";
 
-    protected HealthDatabase(Context context) {
+    public HealthDatabase(Context context) {
         dManager=new DatabaseManager(context,null,null,DatabaseManager.DATABASE_VERSION);
     }
     public int InsertHealthInfo(HealthInformation info){
