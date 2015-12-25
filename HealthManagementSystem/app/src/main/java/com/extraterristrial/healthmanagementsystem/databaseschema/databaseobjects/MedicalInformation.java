@@ -9,8 +9,8 @@ import java.io.ByteArrayOutputStream;
  */
 public class MedicalInformation {
     String name,address,contacts,email,webpage;
-    byte[] medicalPic;
     int profile_id;
+    Bitmap medicalPic;
 
     public String getName() {
         return name;
@@ -28,12 +28,17 @@ public class MedicalInformation {
         return email;
     }
 
-    public String getWebpage() {
-        return webpage;
+    public Bitmap getMedicalPic() {
+        return medicalPic;
     }
 
-    public byte[] getMedicalPic() {
-        return medicalPic;
+    public void setMedicalPic(Bitmap medicalPic) {
+
+        this.medicalPic = medicalPic;
+    }
+
+    public String getWebpage() {
+        return webpage;
     }
 
     public int getProfile_id() {
@@ -59,15 +64,6 @@ public class MedicalInformation {
     public void setWebpage(String webpage) {
         this.webpage = webpage;
     }
-
-    public void setMedicalPic(Bitmap medicalPic) {
-        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-        if (medicalPic!=null) {
-            medicalPic.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            this.medicalPic = byteArrayOutputStream.toByteArray();
-        }
-    }
-
     public void setProfile_id(int profile_id) {
         this.profile_id = profile_id;
     }

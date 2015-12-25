@@ -174,14 +174,14 @@ public class MedicineProfileFragment extends Fragment{
                     mi.setCompletedDose(completedCourse);
                     mi.setDosePerDay(dosePerDay);
                     mi.setSchedule(databaseElement);
-                    mi.setProfile_id(profile_id);
+                    mi.setProfile_id(MedicineListFragment.profile_id);
 
                     if(new MedicineDatabase(getActivity()).StoreMedicine(mi)){
                         Toast.makeText(getActivity(),"Data Saved",Toast.LENGTH_SHORT).show();
-
+                        Bundle mBundle=new Bundle();
+                        mBundle.putString("from","Profile");
                         MedicineListFragment f=new MedicineListFragment();
-                        Bundle b=new Bundle();
-                        b.putInt("profile_id",profile_id);
+                        f.setArguments(mBundle);
                         getFragmentManager().beginTransaction().replace(R.id.detail_page_layout, f).commit();
                     }
 

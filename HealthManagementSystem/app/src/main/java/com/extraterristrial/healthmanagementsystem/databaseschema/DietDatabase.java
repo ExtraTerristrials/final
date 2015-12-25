@@ -74,7 +74,8 @@ public class DietDatabase {
             }
             cursor.moveToNext();
         }
-
+        cursor.close();
+        db.close();
         return list;
     }
 

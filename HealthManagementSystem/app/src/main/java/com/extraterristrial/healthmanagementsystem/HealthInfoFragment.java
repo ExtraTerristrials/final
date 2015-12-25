@@ -17,9 +17,8 @@ import android.widget.TextView;
 import com.extraterristrial.healthmanagementsystem.databaseschema.HealthDatabase;
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.HealthInformation;
 
-/**
- * Created by Jewel on 12/20/2015.
- */
+import java.util.ArrayList;
+
 public class HealthInfoFragment extends Fragment {
     EditText edit_temperature,edit_bloodpressure,edit_hight,edit_weight,edit_bmi,edit_calori;
     Toolbar toolbar;
@@ -89,7 +88,7 @@ public class HealthInfoFragment extends Fragment {
 
     private void showData(int profile_id) {
         try {
-          //  healthInformation=healthDatabase.getHealthData(profile_id);     //  remove date from method parameter
+            ArrayList<HealthInformation> infoList=healthDatabase.getHealthData(profile_id);     //  remove date from method parameter
             edit_bloodpressure.setText(healthInformation.getBloodPressure());
             edit_temperature.setText(healthInformation.getBloodGroup());
             edit_weight.setText(healthInformation.getWeight());

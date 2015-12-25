@@ -78,6 +78,7 @@ public class MedicineAdapter extends ArrayAdapter<MedicineInformation> {
         myHolder.completedCourse.setText("Completed "+mInfo.get(position).getCompletedDose()+" Day/s");
         myHolder.dosePerDay.setText("Dose No "+getTodaysDose(completedDose,doseStr)+" To Be Completed");
         myHolder.medicineBar.setMax(getMax(courseStr,doseStr));
+        myHolder.mName.setText(mInfo.get(position).getMedicineName());
         return row;
     }
 }

@@ -54,11 +54,11 @@ public class HealthDatabase  {
         db.close();
         return status;
     }
-    public HealthInformation getHealthData(int userID,String date){
+    public ArrayList<HealthInformation> getHealthData(int userID){
 
-       // ArrayList<HealthInformation> hList=new ArrayList<>();
+        ArrayList<HealthInformation> hList=new ArrayList<>();
         HealthInformation hInfo=null;
-        String sql="select * from "+HEALTH_TABLE+" where "+USER_ID+" = '"+userID+"' and "+DATE+" = '"+date+"';";
+        String sql="select * from "+HEALTH_TABLE+" where "+USER_ID+" = '"+userID+"';";
         SQLiteDatabase db=dManager.getWritableInstance();
         Cursor cursor=db.rawQuery(sql,null);
 
@@ -74,13 +74,13 @@ public class HealthDatabase  {
             hInfo.setWeight(cursor.getString(cursor.getColumnIndex(WEIGHT)));
             hInfo.setTemperature(cursor.getString(cursor.getColumnIndex(TEMPERATURE)));
 
-            //hList.add(hInfo);
+            hList.add(hInfo);
             cursor.moveToNext();
         }
         cursor.close();
         db.close();
 
-        return hInfo;
+        return hList;
     }
 
     public int UpdateHealthData(HealthInformation info){

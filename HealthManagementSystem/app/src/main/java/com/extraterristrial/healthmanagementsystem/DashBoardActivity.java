@@ -92,6 +92,7 @@ public class DashBoardActivity extends AppCompatActivity {
             {
                 Bundle mBundle=new Bundle();
                 mBundle.putInt("profile_id", profile_id);
+                mBundle.putString("from","DashBoard");
                 MedicineListFragment mFragment=new MedicineListFragment();
                 mFragment.setArguments(mBundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.detail_page_layout,mFragment).commit();

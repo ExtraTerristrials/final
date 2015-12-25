@@ -12,7 +12,7 @@ import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobject
 import java.util.ArrayList;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION=4;
+    public static final int DATABASE_VERSION=5;
     public static final String DATABASE_NAME="healthmanagement.db";
 
     //Coloumns of user table
@@ -43,6 +43,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(MedicineDatabase.CREATE_MEDICINE);
         db.execSQL(DoctorDatabase.CREATE_DOCTOR_TABLE);
         db.execSQL(DoctorDatabase.CREATE_PHONE_TABLE);
+        db.execSQL(MedicalDetabase.CREATE_MEDICAL_TABLE);
     }
 
     @Override
@@ -53,6 +54,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(MedicineDatabase.UPGRADE_MEDICINE_TABLE);
         db.execSQL(DoctorDatabase.UPGRADE_DOCTOR_TABLE);
         db.execSQL(DoctorDatabase.UPGRADE_PHONE_TABLE);
+        db.execSQL(MedicalDetabase.UPGRADE_MEDICAL_TABLE);
         onCreate(db);
     }
 

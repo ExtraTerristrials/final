@@ -14,7 +14,6 @@
 <ListView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/edit_text_background"
     android:id="@+id/diet_list">
 </ListView>
 </LinearLayout>

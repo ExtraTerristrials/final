@@ -54,7 +54,6 @@
         android:layout_alignTop="@+id/picture_medical"
         android:layout_marginLeft="25dp"
         android:onClick="medical"
-        android:src="@mipmap/icon_call_button"
         android:scaleType="centerInside"
         android:background="@drawable/location_button_background"
         />
@@ -66,7 +65,6 @@
         android:background="@drawable/location_button_background"
         android:layout_alignTop="@+id/picture_medical"
         android:layout_toRightOf="@+id/call_button"
-        android:src="@mipmap/icon_browser_button"
         android:onClick="medical"
         android:scaleType="centerInside"
         android:layout_marginLeft="25dp"

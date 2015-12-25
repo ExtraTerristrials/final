@@ -22,26 +22,31 @@ import java.util.ArrayList;
 public class MedicineListFragment extends Fragment{
     ListView medicineList;
     MedicineAdapter adapter;
-    int profile_id;
     MedicineDatabase mStorage;
     Toolbar lToolbar;
     ImageButton back;
+
+    protected static int profile_id;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View listFragmentView=inflater.inflate(R.layout.medicine_list_fragment, container, false);
         medicineList=(ListView)listFragmentView.findViewById(R.id.medicine_list);
         mStorage=new MedicineDatabase(getActivity());
-        ArrayList<MedicineInformation> mList;
+        ArrayList<MedicineInformation> mList=new ArrayList<>();
         back=(ImageButton)listFragmentView.findViewById(R.id.back);
         lToolbar=(Toolbar)listFragmentView.findViewById(R.id.lToolbar);
-        lToolbar.setTitle("Medication");
         lToolbar.inflateMenu(R.menu.add_item_menu);
+        lToolbar.setTitle("Medication");
+
         Bundle b=getArguments();
-        profile_id=b.getInt("profile_id");
+        if(b.getString("from").equals("DashBoard")){
+            profile_id=b.getInt("profile_id");
+        }
         mList=mStorage.getShortDescription(profile_id);
         adapter=new MedicineAdapter(getActivity(),mList);
         medicineList.setAdapter(adapter);
+        
         ToolBarAction();
 
         return listFragmentView;
@@ -53,9 +58,6 @@ public class MedicineListFragment extends Fragment{
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId()==R.id.add_item){
                     MedicineProfileFragment f=new MedicineProfileFragment();
-                    Bundle mBundle=new Bundle();
-                    mBundle.putInt("profile_id", profile_id);
-                    f.setArguments(mBundle);
                     getFragmentManager().beginTransaction().replace(R.id.detail_page_layout, f).commit();
                 }
 
@@ -72,9 +74,4 @@ public class MedicineListFragment extends Fragment{
         });
     }
 
-   /* public interface ActivityCall{
-         void RemoveFragment();
-    }
-
-    ActivityCall ac;*/
 }

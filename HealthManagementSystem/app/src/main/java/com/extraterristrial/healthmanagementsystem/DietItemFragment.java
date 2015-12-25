@@ -9,8 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.extraterristrial.healthmanagementsystem.databaseschema.DietDatabase;
+import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.DietInformation;
+
+import java.util.ArrayList;
 
 public class DietItemFragment extends Fragment {
     private String pageTitle;
@@ -41,9 +45,11 @@ public class DietItemFragment extends Fragment {
         pageTitle = getArguments().getString("page_title");
         profile=getArguments().getInt("profile_id");
         dietDatabase=new DietDatabase(getActivity());
-        dietListAdapter=new DietListAdapter(getActivity(),dietDatabase.retriveDietInfo(profile,pageTitle));
+        ArrayList<DietInformation> al=dietDatabase.retriveDietInfo(profile,pageTitle);
+        dietListAdapter=new DietListAdapter(getActivity(),al);
         dietList.setAdapter(dietListAdapter);
         weekday.setText(pageTitle);
+        Toast.makeText(getActivity(),"Size Of List "+al.size(),Toast.LENGTH_SHORT).show();
         dietListAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {

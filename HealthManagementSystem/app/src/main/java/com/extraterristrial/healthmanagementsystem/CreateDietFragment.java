@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.extraterristrial.healthmanagementsystem.databaseschema.DietDatabase;
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.DietInformation;
@@ -132,7 +133,9 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
                 dietInformation.setReminder("yes");
             }
             DietDatabase dietDatabase=new DietDatabase(getActivity());
-            dietDatabase.InsertDiet(dietInformation);
+            if(dietDatabase.InsertDiet(dietInformation)>=0){
+                Toast.makeText(getActivity(),"May Be Diet Data Saved",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
