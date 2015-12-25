@@ -41,7 +41,7 @@ public class MedicalInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.medical_info_layout,container,false);
         medicalInformation=new MedicalInformation();
-        medicalDetabase=new MedicalDetabase();
+        medicalDetabase=new MedicalDetabase(getContext());
         medicalImage=(ImageView)view.findViewById(R.id.picture_medical);
         mapButton=(Button)view.findViewById(R.id.medical_map_button);
         callButton=(ImageButton)view.findViewById(R.id.call_button);
@@ -91,7 +91,7 @@ public class MedicalInfoFragment extends Fragment {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.add_item: {
-                            Fragment createMedicalFragment = new CreateMedicalFragment();
+                            CreateMedicalFragment createMedicalFragment = new CreateMedicalFragment();
                             Bundle bundle = new Bundle();
                             bundle.putInt("profileId", profile_id);
                             createMedicalFragment.setArguments(bundle);
@@ -104,16 +104,10 @@ public class MedicalInfoFragment extends Fragment {
                     return true;
                 }
             });
-            medicalImage.setImageResource(R.mipmap.noimage);
-            medicalName.setText("Not Set");
-            medicalAddress.setText("Not Set");
-            mediacContacts.setText("Not Set");
-            medicalEmail.setText("Not Set");
-            medicalWebsite.setText("Not Set");
         }
         return view;
     }
-    public void medical(View view)
+    public void medical (View view)
     {
         switch (view.getId())
         {
@@ -146,12 +140,26 @@ public class MedicalInfoFragment extends Fragment {
     }
 
     private void showData() {
-        // medicalInformation == database.......
-        medicalName.setText(medicalInformation.getName());
-        medicalAddress.setText(medicalInformation.getAddress());
-        mediacContacts.setText(medicalInformation.getContacts());
-        medicalEmail.setText(medicalInformation.getEmail());
-        medicalWebsite.setText(medicalInformation.getWebpage());
-        medicalImage.setImageBitmap(BitmapFactory.decodeByteArray(medicalInformation.getMedicalPic(), 0, medicalInformation.getMedicalPic().length));
+        try {
+            if (medicalInformation!=null)
+            {
+                medicalInformation=medicalDetabase.getMedicalData(profile_id);
+                medicalName.setText(medicalInformation.getName());
+                medicalAddress.setText(medicalInformation.getAddress());
+                mediacContacts.setText(medicalInformation.getContacts());
+                medicalEmail.setText(medicalInformation.getEmail());
+                medicalWebsite.setText(medicalInformation.getWebpage());
+                medicalImage.setImageBitmap(medicalInformation.getMedicalPic());
+            }
+        }catch (NullPointerException e)
+        {
+            medicalImage.setImageResource(R.mipmap.noimage);
+            medicalName.setText("Not Set");
+            medicalAddress.setText("Not Set");
+            mediacContacts.setText("Not Set");
+            medicalEmail.setText("Not Set");
+            medicalWebsite.setText("Not Set");
+        }
     }
+
 }
