@@ -16,9 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.extraterristrial.healthmanagementsystem.databaseschema.DietDatabase;
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.DietInformation;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -33,6 +35,7 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
     ListView foodList;
     private FoodAdapter foodAdapter;
     CheckedTextView reminder;
+    ArrayList<String> weekday;
     private DietInformation dietInformation;
     private int profile_id;
     @NonNull
@@ -40,6 +43,7 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.create_diet_layout, null);
         dietInformation=new DietInformation();
+        weekday=new ArrayList<>();
         profile_id=getArguments().getInt("profileId");
         time = view.findViewById(R.id.timeLayout);
         title = view.findViewById(R.id.titleButtonLayout);
@@ -65,7 +69,7 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
                 repeatView.setText(dietInformation.getWeekday());
                 repeat.setFocusable(true);
                 repeat.setClickable(true);
-               // repeat.setBackgroundResource(R.drawable.button_layout_disable_background);
+                //repeat.setBackgroundResource(R.drawable.button_layout_disable_background);
                 try{
                 if (dietInformation.getReminder().equalsIgnoreCase("yes")) {
                     reminder.setChecked(true);
@@ -80,7 +84,8 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
             builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    updateDietInformation();
+                    //updateDietInformation();
+                    saveDietInformation();
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -116,8 +121,19 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
     }
 
     private void saveDietInformation() {
-
-
+        for(int j=0;j<weekday.size();j++)
+        {
+            dietInformation.setFoodItem(menuView.getText().toString());
+            dietInformation.setFoodTitle(titleView.getText().toString());
+            dietInformation.setFoodTime(timeView.getText().toString());
+            dietInformation.setProfileId(profile_id);
+            dietInformation.setWeekday(weekday.get(j).toString());
+            if (checkItem[j]){
+                dietInformation.setReminder("yes");
+            }
+            DietDatabase dietDatabase=new DietDatabase(getActivity());
+            dietDatabase.InsertDiet(dietInformation);
+        }
     }
 
     private void updateDietInformation() {
@@ -259,7 +275,10 @@ public class CreateDietFragment extends DialogFragment implements View.OnClickLi
                 String repeatDay = "";
                 String[] days = getResources().getStringArray(R.array.weekDay);
                 for (int i = 0; i < 7; i++) {
-                    if (checkItem[i]) repeatDay += days[i] + ",";
+                    if (checkItem[i]) {
+                        repeatDay += days[i] + ",";
+                        weekday.add(repeatDay);
+                    }
                 }
                 if (repeatDay.length() == 0) repeatView.setText("Not set");
                 else repeatView.setText(repeatDay.substring(0, repeatDay.length() - 1));

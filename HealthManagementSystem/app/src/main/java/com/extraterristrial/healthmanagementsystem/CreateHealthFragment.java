@@ -11,27 +11,43 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.extraterristrial.healthmanagementsystem.databaseschema.HealthDatabase;
+import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.HealthInformation;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Jewel on 12/20/2015.
  */
-public class CreateHealthFragment extends Fragment implements View.OnClickListener {
-    EditText edit_bloodgroup,edit_bloodpressure,edit_hight,edit_weight,edit_bmi,edit_calori;
+public class CreateHealthFragment extends Fragment{
+    EditText edit_temperature,edit_bloodpressure,edit_hight,edit_weight,edit_bmi,edit_calori;
     Toolbar toolbar;
-    View bloodgroup,bloodpressure,hight,weight,bmi,calori;
     int profile_id;
+    String date;
+    HealthInformation healthInformation;
+    HealthDatabase healthDatabase;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.health_info_layout,container,false);
+        View view=inflater.inflate(R.layout.create_health_layout, container, false);
         profile_id=getArguments().getInt("profile_id");
+        healthInformation=new HealthInformation();
+        Date now=Calendar.getInstance().getTime();
+        date=new SimpleDateFormat("yyyy-MM-dd").format(now);
+        healthDatabase=new HealthDatabase(getActivity());
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
-        toolbar.setTitle("Edit Health");
+        toolbar.setTitle("Add Daily Health");
         toolbar.inflateMenu(R.menu.save_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+
                 saveData(profile_id);
                 Fragment healthInfoFragment = new HealthInfoFragment();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -43,42 +59,12 @@ public class CreateHealthFragment extends Fragment implements View.OnClickListen
                 return true;
             }
         });
-        bloodgroup=view.findViewById(R.id.bloodGroup);
-        bloodpressure=view.findViewById(R.id.bloodPressure);
-        bmi=view.findViewById(R.id.bmi);
-        hight=view.findViewById(R.id.hight);
-        calori=view.findViewById(R.id.calori);
-        weight=view.findViewById(R.id.weight);
-        edit_bloodgroup=(EditText)view.findViewById(R.id.edit_bloodgroup);
-        edit_bloodpressure=(EditText)view.findViewById(R.id.edit_bloodpressure);
+        edit_temperature=(EditText)view.findViewById(R.id.edit_temperature);
+        edit_bloodpressure=(EditText)view.findViewById(R.id.edit_bp);
         edit_hight=(EditText)view.findViewById(R.id.edit_hight);
         edit_weight=(EditText)view.findViewById(R.id.edit_weight);
         edit_bmi=(EditText)view.findViewById(R.id.edit_bmi);
         edit_calori=(EditText)view.findViewById(R.id.edit_calori);
-        bloodgroup.setFocusable(true);
-        bloodgroup.setClickable(true);
-        bloodpressure.setFocusable(true);
-        bloodpressure.setClickable(true);
-        bmi.setFocusable(true);
-        bmi.setClickable(true);
-        weight.setFocusable(true);
-        weight.setClickable(true);
-        hight.setFocusable(true);
-        hight.setClickable(true);
-        calori.setFocusable(true);
-        calori.setClickable(true);
-        edit_bloodgroup.setClickable(true);
-        edit_bloodgroup.setFocusable(true);
-        edit_bloodpressure.setClickable(true);
-        edit_bloodpressure.setFocusable(true);
-        edit_bmi.setClickable(true);
-        edit_bmi.setFocusable(true);
-        edit_calori.setClickable(true);
-        edit_calori.setFocusable(true);
-        edit_hight.setClickable(true);
-        edit_hight.setFocusable(true);
-        edit_weight.setClickable(true);
-        edit_weight.setFocusable(true);
         try {
             showData(profile_id);
         }catch (NullPointerException e)
@@ -89,47 +75,34 @@ public class CreateHealthFragment extends Fragment implements View.OnClickListen
             edit_weight.setText("Not Set");
             edit_hight.setText("Not Set");
             edit_bloodpressure.setText("Not Set");
-            edit_bloodgroup.setText("Not Set");
+            edit_temperature.setText("Not Set");
         }
         return view;
     }
 
     private void showData(int profile_id) {
+        try {
+            healthInformation=healthDatabase.getHealthData(profile_id,date);
+            edit_bloodpressure.setText(healthInformation.getBloodPressure());
+            edit_temperature.setText(healthInformation.getBloodGroup());
+            edit_weight.setText(healthInformation.getWeight());
+            edit_hight.setText(healthInformation.getHeight());
+            edit_bmi.setText(healthInformation.getBmi());
+            edit_calori.setText(healthInformation.getCalorie());
+        }catch (NullPointerException e){
 
+        }
     }
 
     private void saveData(int profile_id) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId())
-        {
-            case R.id.bloodGroup:
-            {
-
-            }break;
-            case R.id.bloodPressure:
-            {
-
-            }break;
-            case R.id.bmi:
-            {
-
-            }break;
-            case R.id.hight:
-            {
-
-            }break;
-            case R.id.weight:
-            {
-
-            }break;
-            case R.id.calori:
-            {
-
-            }break;
-        }
+        healthInformation.setBmi(edit_bmi.getText().toString());
+        healthInformation.setCalorie(edit_calori.getText().toString());
+        healthInformation.setBloodPressure(edit_bloodpressure.getText().toString());
+        healthInformation.setHeight(edit_hight.getText().toString());
+        healthInformation.setWeight(edit_weight.getText().toString());
+        healthInformation.setBloodGroup(edit_temperature.getText().toString());
+        healthInformation.setUserId(profile_id);
+        healthInformation.setDate(date);
+        healthDatabase.InsertHealthInfo(healthInformation);
     }
 }
