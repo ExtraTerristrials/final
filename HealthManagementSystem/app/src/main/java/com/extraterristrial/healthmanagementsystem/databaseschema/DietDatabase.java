@@ -70,7 +70,7 @@ public class DietDatabase {
                 info.setReminder(cursor.getString(cursor.getColumnIndex(REMINDER)));
                 list.add(info);
             }catch(NullPointerException e){
-                Toast.makeText(context,"Diet info Retrival throes null pointer exception",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Diet info Retrival throwes null pointer exception",Toast.LENGTH_SHORT).show();
             }
             cursor.moveToNext();
         }

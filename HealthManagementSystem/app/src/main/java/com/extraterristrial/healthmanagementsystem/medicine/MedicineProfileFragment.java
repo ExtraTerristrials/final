@@ -1,11 +1,16 @@
 package com.extraterristrial.healthmanagementsystem.medicine;
 
-import android.app.TimePickerDialog;
-import android.graphics.Color;
+
+import android.support.v4.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,132 +20,196 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TimePicker;
+import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.extraterristrial.healthmanagementsystem.R;
+import com.extraterristrial.healthmanagementsystem.databaseschema.MedicineDatabase;
+import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.MedicineInformation;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MedicineProfileFragment extends Fragment{
 
-    EditText name,course,quantity;
+    EditText name,course;
     CheckBox courseChecker;
-    Button timePicker;
-    ListView timeQuantityList;
-    Spinner spinner;
+    Button scheduleButton;
+    ListView scheduleList;
+    ImageButton mPic,camera;
+    Toolbar toolbar;
 
     ArrayAdapter<String> adapter;
     ArrayList<String> listElement=new ArrayList<>();
     ArrayList<TimeQuantity> databaseElement=new ArrayList<>();
+    Bitmap medicinePic;
 
-    protected int hour,minutes,am_pmIdentifier,listPosition=-1;
+    protected int profile_id,listPos=-1;
+
+    private String mName,mCourse,completedCourse,dosePerDay;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View profileView=inflater.inflate(R.layout.medication_profile_fragment,container,false);
+        View profileView=inflater.inflate(R.layout.medication_profile_fragment, container, false);
 
         name=(EditText)profileView.findViewById(R.id.medicine_name);
         course=(EditText)profileView.findViewById(R.id.medicine_course);
-        quantity=(EditText)profileView.findViewById(R.id.quantity);
-        timeQuantityList= (ListView) profileView.findViewById(R.id.time_quantity_list);
-        timePicker= (Button) profileView.findViewById(R.id.timePicker);
         courseChecker=(CheckBox)profileView.findViewById(R.id.course_checker);
-        spinner= (Spinner) profileView.findViewById(R.id.medicine_spinner);
+        scheduleButton= (Button) profileView.findViewById(R.id.schedule_button);
+        scheduleList=(ListView)profileView.findViewById(R.id.schedule_list);
+        camera=(ImageButton)profileView.findViewById(R.id.camera);
+        mPic=(ImageButton)profileView.findViewById(R.id.medicine_pic);
 
-        course.setVisibility(View.INVISIBLE);
+        toolbar = (Toolbar)profileView.findViewById(R.id.mToolbar);
+        toolbar.setTitle("Medication");
+        toolbar.inflateMenu(R.menu.save_menu);
+        new MedicineDatabase(getActivity()).deleteAll();
 
-        ArrayAdapter<CharSequence> medicineSpinneradapter=ArrayAdapter.createFromResource(getContext(), R.array.general_medicine_rule, R.layout.spinner_item_layout);
-        medicineSpinneradapter.setDropDownViewResource(R.layout.spinner_item_layout);
-        spinner.setAdapter(medicineSpinneradapter);
+        try{
+            Bundle mBundle=getArguments();
+            profile_id=mBundle.getInt("profile_id");
 
-        adapter=new ArrayAdapter<String>(getActivity(),R.layout.time_quantity_row,R.id.schedule_text,listElement);
-        timeQuantityList.setAdapter(adapter);
+        }catch(NullPointerException e){}
 
-        timeQuantityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        camera.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listPosition = position;
-                quantity.setText(databaseElement.get(listPosition).getQuantity());
-
+            public void onClick(View v) {
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (cameraIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivityForResult(cameraIntent, 3);
+                }
             }
         });
-        timeQuantityList.setOnTouchListener(new View.OnTouchListener() {
+
+        course.setVisibility(View.INVISIBLE);
+        courseChecker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    course.setVisibility(View.VISIBLE);
+                } else {
+                    course.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        scheduleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MedicineScheduleDialog dialog = new MedicineScheduleDialog();
+                dialog.setTargetFragment(MedicineProfileFragment.this, 4);
+                dialog.show(getFragmentManager(), "ScheduleDialog");
+            }
+        });
+        adapter=new ArrayAdapter<String>(getActivity(),R.layout.time_quantity_row,R.id.schedule_text,listElement);
+        scheduleList.setAdapter(adapter);
+        scheduleList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
                 return false;
             }
         });
-        timePicker.setOnClickListener(new View.OnClickListener() {
+        scheduleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                new TimePickerDialog(getActivity(), tListener, hour, minutes, false).show();
-            }
-        });
-
-        courseChecker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    course.setVisibility(View.VISIBLE);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MedicineScheduleDialog dialog = new MedicineScheduleDialog();
+                dialog.setTargetFragment(MedicineProfileFragment.this, 4);
+                Bundle args=new Bundle();
+                listPos=position;
+                TimeQuantity tQ=databaseElement.get(position);
+                int itemPosition;
+                if(tQ.getFoodRelation().equals("Before meal")){
+                    itemPosition=0;
+                }else if(tQ.getFoodRelation().equals("After meal")){
+                    itemPosition=1;
+                }else{
+                    itemPosition=2;
                 }
+                args.putString("Time", tQ.getTime());
+                args.putString("Quantity", tQ.getQuantity());
+                args.putInt("FoodRelation", itemPosition);
+
+                dialog.setArguments(args);
+                dialog.show(getFragmentManager(),"ScheduleDialog");
             }
         });
-
+        ToolbarAction();
         return profileView;
     }
 
-    protected String getTime(){
-        String am_pm[]={"AM","PM"};
-        if(hour==0){
-            return String.format("%02d : %02d "+am_pm[am_pmIdentifier],12,minutes);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bundle extras = data.getExtras();
+        if(requestCode==3 && resultCode==getActivity().RESULT_OK){
+            medicinePic= (Bitmap) extras.get("data");
+            mPic.setImageBitmap(medicinePic);
         }
-        return String.format("%02d : %02d "+am_pm[am_pmIdentifier],hour%12,minutes);
+        if(requestCode==4 && listPos<0){
+            TimeQuantity tq=new TimeQuantity(extras.getString("Time"),extras.getString("Quantity"),extras.getString("FoodRelation"));
+            listElement.add(tq.getTime()+" "+tq.getQuantity()+" "+tq.getFoodRelation());
+            adapter.notifyDataSetChanged();
+            databaseElement.add(tq);
+        }
+        if(requestCode==4 && listPos>=0){
+            TimeQuantity tq=new TimeQuantity(extras.getString("Time"),extras.getString("Quantity"),extras.getString("FoodRelation"));
+            listElement.set(listPos,tq.getTime()+" "+tq.getQuantity()+" "+tq.getFoodRelation());
+            adapter.notifyDataSetChanged();
+            databaseElement.set(listPos,tq);
+            listPos=-1;
+        }
     }
-    protected TimePickerDialog.OnTimeSetListener tListener= new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            hour=hourOfDay;
-            minutes=minute;
-            Calendar time=Calendar.getInstance();
-            time.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            am_pmIdentifier=time.get(Calendar.AM_PM);
-            String listString;
-            if(initDatabaseElement()){
-                listString="Time : "+databaseElement.get(databaseElement.size()-1).getTime()+" Quantity : "+databaseElement.get(databaseElement.size()-1).getQuantity();
-                listElement.add(listString);
-                adapter.notifyDataSetChanged();
-            }else if(listPosition>=0){
-                listString="Time : "+databaseElement.get(listPosition).getTime()+" Quantity : "+databaseElement.get(listPosition).getQuantity();
-                listElement.set(listPosition, listString);
-                adapter.notifyDataSetChanged();
-                listPosition=-1;
+
+    private void ToolbarAction(){
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                MedicineInformation mi=new MedicineInformation();
+                if(item.getItemId()==R.id.save_profile && getValue()){
+                    mi.setMedicineName(mName);
+                    mi.setMedicinePic(medicinePic);
+                    mi.setCourse(mCourse);
+                    mi.setCompletedDose(completedCourse);
+                    mi.setDosePerDay(dosePerDay);
+                    mi.setSchedule(databaseElement);
+                    mi.setProfile_id(profile_id);
+
+                    if(new MedicineDatabase(getActivity()).StoreMedicine(mi)){
+                        Toast.makeText(getActivity(),"Data Saved",Toast.LENGTH_SHORT).show();
+
+                        MedicineListFragment f=new MedicineListFragment();
+                        Bundle b=new Bundle();
+                        b.putInt("profile_id",profile_id);
+                        getFragmentManager().beginTransaction().replace(R.id.detail_page_layout, f).commit();
+                    }
+
+                    return true;
+                }
+                return false;
             }
+        });
+    }
 
-        }
-    };
+    private boolean getValue(){
+        mName=name.getText().toString();
+        mCourse=course.getText().toString();
+        completedCourse="0";
+        dosePerDay=String.valueOf(databaseElement.size()+1);
 
-    private boolean initDatabaseElement(){
-        String q=quantity.getText().toString();
-        String t=getTime();
-
-        if(!q.equals("") && !t.equals("") && listPosition<0){
-
-            databaseElement.add(new TimeQuantity(t,q));
-            quantity.setText("");
-            return true;
-        }
-
-        if(!q.equals("") && !t.equals("") && listPosition>=0){
-            databaseElement.set(listPosition,new TimeQuantity(t,q));
-            quantity.setText("");
+        if(mName.equals(null) || mName.equals("")){
             return false;
         }
-
-        return false;
+        if(dosePerDay.equals("0")){
+            return false;
+        }
+        if(mCourse.equals("") || mCourse.equals(null)){
+            mCourse="1";
+        }
+        if(medicinePic==null){
+            medicinePic= BitmapFactory.decodeResource(getResources(), R.mipmap.noimage);
+        }
+        return true;
     }
 }

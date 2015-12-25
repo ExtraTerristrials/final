@@ -6,10 +6,12 @@ package com.extraterristrial.healthmanagementsystem.medicine;
 public class TimeQuantity {
     private String time;
     private String Quantity;
+    private String foodRelation;
 
-    public TimeQuantity(String time, String quantity) {
+    public TimeQuantity(String time, String quantity, String foodRelation) {
         this.time = time;
         Quantity = quantity;
+        this.foodRelation = foodRelation;
     }
 
     public String getTime() {
@@ -18,5 +20,9 @@ public class TimeQuantity {
 
     public String getQuantity() {
         return Quantity;
+    }
+
+    public String getFoodRelation() {
+        return foodRelation;
     }
 }

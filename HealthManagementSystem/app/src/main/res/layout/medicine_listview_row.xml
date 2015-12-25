@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:id="@+id/list_image"
+        android:scaleType="fitXY"
+        android:background="@drawable/edit_text_background"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_name"
+        android:layout_toRightOf="@+id/list_image"
+        android:text="Esomep 20"
+        android:textStyle="italic"
+        android:textColor="@color/colorGreen"
+        android:textSize="20sp"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_course"
+        android:layout_toRightOf="@+id/list_image"
+        android:text="20 days course"
+        android:textStyle="italic"
+        android:textColor="@color/colorGreen"
+        android:textSize="20sp"
+        android:layout_below="@+id/list_name"
+        android:gravity="center"
+        android:layout_marginTop="15dp"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/medicineBar"
+        android:background="@drawable/edit_text_background"
+        android:layout_below="@+id/list_course"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/list_image"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/completed_course"
+        android:layout_toRightOf="@+id/list_image"
+        android:text="Completed 4 days "
+        android:textStyle="italic"
+        android:textColor="@color/colorGreen"
+        android:textSize="20sp"
+        android:layout_below="@+id/medicineBar"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/doseOfDay"
+        android:text=" 4th dose of the day "
+        android:textStyle="italic"
+        android:textColor="@color/colorGreen"
+        android:textSize="20sp"
+        android:layout_toRightOf="@+id/list_image"
+        android:layout_below="@+id/completed_course"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/list_image"
+        />
+
+
+</RelativeLayout>

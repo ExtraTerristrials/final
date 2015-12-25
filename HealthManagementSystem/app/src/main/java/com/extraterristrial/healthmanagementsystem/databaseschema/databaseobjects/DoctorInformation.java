@@ -7,19 +7,23 @@ import java.util.ArrayList;
 
 public class DoctorInformation {
     private String doctorName;
-    private ArrayList<String> doctorPhone;
+    private ArrayList<String> doctorPhoneList;
     private String doctorAdress;
     private String doctorMail;
     private String doctorSpeciality;
     private Bitmap doctorPic;
     private int doctorUser;
 
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
+    public void setDoctorPhoneList(ArrayList<String> doctorPhoneList) {
+        this.doctorPhoneList = doctorPhoneList;
     }
 
-    public void setDoctorPhone(ArrayList<String> doctorPhone) {
-        this.doctorPhone = doctorPhone;
+    public ArrayList<String> getDoctorPhoneList() {
+        return doctorPhoneList;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
     public void setDoctorAdress(String doctorAdress) {
@@ -45,11 +49,6 @@ public class DoctorInformation {
     public String getDoctorName() {
         return doctorName;
     }
-
-    public ArrayList<String> getDoctorPhone() {
-        return doctorPhone;
-    }
-
     public String getDoctorAdress() {
         return doctorAdress;
     }

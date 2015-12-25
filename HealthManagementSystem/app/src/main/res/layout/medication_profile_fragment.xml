@@ -1,123 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlack"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/mToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBlack">
-        <ImageButton
-            android:layout_width="120dp"
-            android:layout_height="142dp"
-            android:id="@+id/medicine_pic"
-            android:scaleType="fitXY"
-            android:background="@drawable/edit_text_background"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/name_view"
-            android:text="Medicine Name : "
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorGreen"
-            android:textStyle="italic"
-            android:layout_toRightOf="@+id/medicine_pic"
-            android:layout_alignTop="@+id/medicine_pic"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/medicine_name"
-            android:hint="Provide Medicine Name Here"
-            android:singleLine="true"
-            android:textColorHint="@color/colorGray"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorGray"
-            android:textStyle="bold"
-            android:background="@drawable/edit_text_background"
-            android:layout_below="@+id/name_view"
-            android:layout_toRightOf="@+id/medicine_pic"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/course_checker"
-            android:text="Set Course"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:textColor="@color/colorBlack"
-            android:textStyle="italic"
-            android:background="@color/colorPrimary"
-            android:layout_below="@+id/medicine_name"
-            android:layout_toRightOf="@+id/medicine_pic"
-            android:layout_marginTop="5dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/medicine_course"
-            android:hint="Continueing Days"
-            android:inputType="number"
-            android:textColorHint="@color/colorGray"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorGray"
-            android:textStyle="bold"
-            android:background="@drawable/edit_text_background"
-            android:layout_below="@+id/course_checker"
-            android:layout_toRightOf="@+id/medicine_pic"
-            android:layout_alignBottom="@+id/medicine_pic"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
+    <ImageButton
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:id="@+id/medicine_pic"
+        android:background="@drawable/edit_text_background"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/mToolbar"
+        android:layout_marginTop="10dp"/>
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/camera"
+        android:layout_toRightOf="@+id/medicine_pic"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="110dp"
+        android:background="@mipmap/camera"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/medicine_pic"
+        android:layout_marginTop="15dp">
 
-        <Spinner
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="59dp"
-            android:id="@+id/medicine_spinner"
-            android:background="@drawable/edit_text_background"
-            android:layout_below="@+id/medicine_course"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="7dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/quantity_view"
-            android:text="Medicine Quantity : "
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorGreen"
-            android:textStyle="italic"
-            android:layout_below="@+id/medicine_spinner"
-            android:layout_marginTop="20dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/quantity"
-            android:inputType="text"
-            android:hint="Provide Quantity Here "
-            android:singleLine="true"
-            android:textColorHint="@color/colorGray"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorGray"
-            android:textStyle="bold"
-            android:background="@drawable/edit_text_background"
-            android:layout_below="@+id/medicine_spinner"
-            android:layout_toRightOf="@+id/quantity_view"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="7dp"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/timePicker"
-            android:text="Add Schedule"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorGreen"
-            android:textStyle="bold"
-            android:background="@drawable/edit_text_background"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_below="@+id/quantity"
-            android:layout_marginTop="5dp"/>
+            android:layout_height="match_parent">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/time_quantity_list"
-            android:layout_below="@+id/timePicker"
-            android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prompt1"
+                android:text="Medicine Name"
+                android:textStyle="italic"
+                android:textColor="@color/colorRed"
+                android:textSize="20sp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/medicine_name"
+                android:background="@drawable/edit_text_background"
+                android:hint="Provide Medicine Name Here"
+                android:textColorHint="@color/colorGray"
+                android:textColor="@color/colorGray"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_below="@+id/prompt1"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/schedule_button"
+                android:background="@drawable/button_background_rectangle"
+                android:layout_below="@+id/medicine_name"
+                android:text="Medication Schedule"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/schedule_list"
+                android:layout_below="@+id/schedule_button"
+                android:layout_marginTop="10dp"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/course_checker"
+                android:text="Set Medication Course"
+                android:textColor="@color/colorBlackLight"
+                android:background="@drawable/button_background_rectangle"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_below="@+id/schedule_list"
+                android:layout_marginTop="10dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/medicine_course"
+                android:inputType="number"
+                android:background="@drawable/edit_text_background"
+                android:hint="Number of Days To Be Continued"
+                android:textColorHint="@color/colorGray"
+                android:textColor="@color/colorGray"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_below="@+id/course_checker"
+                android:layout_marginTop="5dp"/>
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-
-
+    </ScrollView>
+</RelativeLayout>

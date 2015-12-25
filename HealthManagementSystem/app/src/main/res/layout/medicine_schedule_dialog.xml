@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_background"
+    android:paddingLeft="8dp"
+    android:paddingRight="5dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="5dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantity"
+        android:textSize="20sp"
+        android:textColor="@color/colorRed"
+        android:textStyle="bold"
+        android:id="@+id/text1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unit"
+        android:textSize="20sp"
+        android:textColor="@color/colorRed"
+        android:textStyle="bold"
+        android:id="@+id/text2"
+        android:layout_alignParentRight="true"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/quantity"
+        android:background="@drawable/edit_text_background"
+        android:hint="Provide Quantity"
+        android:inputType="number"
+        android:textColorHint="@color/colorGray"
+        android:textColor="@color/colorGray"
+        android:textStyle="bold"
+        android:textSize="19sp"
+        android:layout_below="@+id/text1"
+        android:layout_alignBottom="@+id/unit"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/unit"
+        android:background="@drawable/edit_text_background"
+        android:layout_toRightOf="@+id/quantity"
+        android:layout_below="@+id/text2"
+        android:layout_marginLeft="10dp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/meal_relation"
+        android:background="@drawable/edit_text_background"
+        android:layout_below="@+id/unit"
+        android:layout_marginTop="15dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_picker"
+        android:background="@drawable/button_background_rectangle"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlackLight"
+        android:text=" Time"
+        android:layout_below="@+id/meal_relation"
+        android:layout_marginTop="15dp"/>
+
+</RelativeLayout>

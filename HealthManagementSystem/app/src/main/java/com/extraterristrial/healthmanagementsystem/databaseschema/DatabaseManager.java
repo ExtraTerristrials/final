@@ -7,14 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.BitmapFactory;
 
-import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.HealthInformation;
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.UserInformation;
 
 import java.util.ArrayList;
-import java.util.Currency;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION=3;
+    public static final int DATABASE_VERSION=4;
     public static final String DATABASE_NAME="healthmanagement.db";
 
     //Coloumns of user table
@@ -42,6 +40,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USER_INFO);
         db.execSQL(DietDatabase.CREATE_DIET_TABLE);
         db.execSQL(HealthDatabase.CREATE_HEALTH_TABLE);
+        db.execSQL(MedicineDatabase.CREATE_MEDICINE);
+        db.execSQL(DoctorDatabase.CREATE_DOCTOR_TABLE);
+        db.execSQL(DoctorDatabase.CREATE_PHONE_TABLE);
     }
 
     @Override
@@ -49,6 +50,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(UPGRADE_USER_TABLE);
         db.execSQL(HealthDatabase.UPGRADE_HEALTH_TABLE);
         db.execSQL(DietDatabase.UPGRADE_DIET_TABLE);
+        db.execSQL(MedicineDatabase.UPGRADE_MEDICINE_TABLE);
+        db.execSQL(DoctorDatabase.UPGRADE_DOCTOR_TABLE);
+        db.execSQL(DoctorDatabase.UPGRADE_PHONE_TABLE);
         onCreate(db);
     }
 

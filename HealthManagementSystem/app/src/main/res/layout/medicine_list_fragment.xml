@@ -3,12 +3,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlack">
-
+    android:background="@color/colorBlackLight"
+    android:id="@+id/medicine_list_container">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/lToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/back"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@mipmap/back_button"/>
+    </android.support.v7.widget.Toolbar>
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/medicine_list"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>

@@ -10,7 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.extraterristrial.healthmanagementsystem.medicine.MedicineActivity;
+import com.extraterristrial.healthmanagementsystem.medicine.MedicineListFragment;
+import com.extraterristrial.healthmanagementsystem.medicine.MedicineProfileFragment;
 
 public class DashBoardActivity extends AppCompatActivity {
     private int profile_id;
@@ -79,12 +80,14 @@ public class DashBoardActivity extends AppCompatActivity {
             }break;
             case R.id.medical_button:
             {
-
             }break;
             case R.id.medicin_button:
             {
-                startActivity(new Intent(DashBoardActivity.this,MedicineActivity.class).putExtra("userId",profile_id));
-
+                Bundle mBundle=new Bundle();
+                mBundle.putInt("profile_id", profile_id);
+                MedicineListFragment mFragment=new MedicineListFragment();
+                mFragment.setArguments(mBundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.detail_page_layout,mFragment).commit();
             }break;
             case R.id.vaccin_button:
             {
