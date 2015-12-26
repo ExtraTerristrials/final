@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class HealthInfoFragment extends Fragment {
     EditText edit_temperature,edit_bloodpressure,edit_hight,edit_weight,edit_bmi,edit_calori;
     Toolbar toolbar;
-    View temperature,bloodpressure,hight,weight,bmi,calori;
     TextView date;
     int profile_id;
     HealthInformation healthInformation;
@@ -32,15 +31,9 @@ public class HealthInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.health_info_layout, container, false);
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
-        healthDatabase=new HealthDatabase(getActivity());
+        healthDatabase=new HealthDatabase(getContext());
         healthInformation=new HealthInformation();
-        temperature=view.findViewById(R.id.bloodGroup);
-        bloodpressure=view.findViewById(R.id.bloodPressure);
         date=(TextView)view.findViewById(R.id.date);
-        bmi=view.findViewById(R.id.bmi);
-        hight=view.findViewById(R.id.hight);
-        calori=view.findViewById(R.id.calori);
-        weight=view.findViewById(R.id.weight);
         edit_temperature=(EditText)view.findViewById(R.id.edit_temperature);
         edit_bloodpressure=(EditText)view.findViewById(R.id.edit_bloodpressure);
         edit_hight=(EditText)view.findViewById(R.id.edit_hight);
@@ -73,13 +66,15 @@ public class HealthInfoFragment extends Fragment {
                 toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Fragment createHealthFragment = new CreateHealthFragment();
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        Bundle bundle=new Bundle();
-                        bundle.putInt("profile_id",profile_id);
-                        createHealthFragment.setArguments(bundle);
-                        FragmentTransaction ft = fm.beginTransaction().replace(R.id.detail_page_layout, createHealthFragment);
-                        ft.commit();
+                        if (item.getItemId()==R.id.add_item) {
+                            CreateHealthFragment createHealthFragment = new CreateHealthFragment();
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("profile_id", profile_id);
+                            createHealthFragment.setArguments(bundle);
+                            FragmentTransaction ft = fm.beginTransaction().replace(R.id.detail_page_layout, createHealthFragment);
+                            ft.commit();
+                        }
                         return true;
                     }
                 });
@@ -88,14 +83,18 @@ public class HealthInfoFragment extends Fragment {
 
     private void showData(int profile_id) {
         try {
-            ArrayList<HealthInformation> infoList=healthDatabase.getHealthData(profile_id);     //  remove date from method parameter
-            edit_bloodpressure.setText(healthInformation.getBloodPressure());
-            edit_temperature.setText(healthInformation.getBloodGroup());
-            edit_weight.setText(healthInformation.getWeight());
-            edit_hight.setText(healthInformation.getHeight());
-            edit_bmi.setText(healthInformation.getBmi());
-            edit_calori.setText(healthInformation.getCalorie());
-            date.setText(healthInformation.getDate());
+            if (healthDatabase!=null) {
+                ArrayList<HealthInformation> infoList = healthDatabase.getHealthData(profile_id);
+                while (infoList.size()>0) {
+                    edit_bloodpressure.setText(infoList.get(infoList.size() - 1).getBloodPressure());
+                    edit_temperature.setText(infoList.get(infoList.size() - 1).getBloodGroup());
+                    edit_weight.setText(infoList.get(infoList.size() - 1).getWeight());
+                    edit_hight.setText(infoList.get(infoList.size() - 1).getHeight());
+                    edit_bmi.setText(infoList.get(infoList.size() - 1).getBmi());
+                    edit_calori.setText(infoList.get(infoList.size() - 1).getCalorie());
+                    date.setText(infoList.get(infoList.size() - 1).getDate());
+                }
+            }
         }catch (NullPointerException e){
             e.printStackTrace();
             edit_calori.setText("Not Set");

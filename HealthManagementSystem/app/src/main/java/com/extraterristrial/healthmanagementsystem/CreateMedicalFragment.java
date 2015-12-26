@@ -42,7 +42,7 @@ public class CreateMedicalFragment extends Fragment {
         View view=inflater.inflate(R.layout.create_medical_layout,container,false);
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
         medicalInformation=new MedicalInformation();
-        medicalDetabase=new MedicalDetabase();
+        medicalDetabase=new MedicalDetabase(getContext());
         editmedicalPicture=(ImageView)view.findViewById(R.id.picture_medical);
         camera=(ImageButton)view.findViewById(R.id.camera);
         gallary=(ImageButton)view.findViewById(R.id.gallary);
@@ -88,7 +88,7 @@ public class CreateMedicalFragment extends Fragment {
                 if (item.getItemId()==R.id.save_profile)
                 {
                     saveData();
-                    Fragment medicalInfoFragment = new MedicalInfoFragment();
+                    MedicalInfoFragment medicalInfoFragment = new MedicalInfoFragment();
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     Bundle bundle = new Bundle();
                     bundle.putInt("profile_id", profile_id);
@@ -110,17 +110,20 @@ public class CreateMedicalFragment extends Fragment {
         medicalInformation.setEmail(editMedicalEmail.getText().toString());
         medicalInformation.setWebpage(editMedicalWebsite.getText().toString());
         medicalInformation.setProfile_id(profile_id);
-        //insert in database
+        medicalDetabase.InsertMedicalInfo(medicalInformation);
     }
 
     private void showData() {
-       // medicalInformation == database.......
-        editMedicalName.setText(medicalInformation.getName());
-        editMedicalAddress.setText(medicalInformation.getAddress());
-        editMedicalContacts.setText(medicalInformation.getContacts());
-        editMedicalEmail.setText(medicalInformation.getEmail());
-        editMedicalWebsite.setText(medicalInformation.getWebpage());
-        editmedicalPicture.setImageBitmap(BitmapFactory.decodeByteArray(medicalInformation.getMedicalPic(),0,medicalInformation.getMedicalPic().length));
+        if (medicalInformation!=null)
+        {
+            medicalInformation=medicalDetabase.getMedicalData(profile_id);
+            editMedicalName.setText(medicalInformation.getName());
+            editMedicalAddress.setText(medicalInformation.getAddress());
+            editMedicalContacts.setText(medicalInformation.getContacts());
+            editMedicalEmail.setText(medicalInformation.getEmail());
+            editMedicalWebsite.setText(medicalInformation.getWebpage());
+            editmedicalPicture.setImageBitmap(medicalInformation.getMedicalPic());
+        }
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

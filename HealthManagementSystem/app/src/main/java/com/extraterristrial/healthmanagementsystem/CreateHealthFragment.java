@@ -17,6 +17,7 @@ import com.extraterristrial.healthmanagementsystem.databaseschema.HealthDatabase
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.HealthInformation;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,7 +41,7 @@ public class CreateHealthFragment extends Fragment{
         healthInformation=new HealthInformation();
         Date now=Calendar.getInstance().getTime();
         date=new SimpleDateFormat("yyyy-MM-dd").format(now);
-        healthDatabase=new HealthDatabase(getActivity());
+        healthDatabase=new HealthDatabase(getContext());
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
         toolbar.setTitle("Add Daily Health");
         toolbar.inflateMenu(R.menu.save_menu);
@@ -49,7 +50,7 @@ public class CreateHealthFragment extends Fragment{
             public boolean onMenuItemClick(MenuItem item) {
 
                 saveData(profile_id);
-                Fragment healthInfoFragment = new HealthInfoFragment();
+                HealthInfoFragment healthInfoFragment = new HealthInfoFragment();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 Bundle bundle = new Bundle();
                 bundle.putInt("profile_id", profile_id);
@@ -82,13 +83,17 @@ public class CreateHealthFragment extends Fragment{
 
     private void showData(int profile_id) {
         try {
-            healthInformation=healthDatabase.getHealthData(profile_id,date);
-            edit_bloodpressure.setText(healthInformation.getBloodPressure());
-            edit_temperature.setText(healthInformation.getBloodGroup());
-            edit_weight.setText(healthInformation.getWeight());
-            edit_hight.setText(healthInformation.getHeight());
-            edit_bmi.setText(healthInformation.getBmi());
-            edit_calori.setText(healthInformation.getCalorie());
+            if (healthDatabase!=null) {
+                ArrayList<HealthInformation> infoList = healthDatabase.getHealthData(profile_id);
+                while (infoList.size()>0) {
+                    edit_bloodpressure.setText(infoList.get(infoList.size() - 1).getBloodPressure());
+                    edit_temperature.setText(infoList.get(infoList.size() - 1).getBloodGroup());
+                    edit_weight.setText(infoList.get(infoList.size() - 1).getWeight());
+                    edit_hight.setText(infoList.get(infoList.size() - 1).getHeight());
+                    edit_bmi.setText(infoList.get(infoList.size() - 1).getBmi());
+                    edit_calori.setText(infoList.get(infoList.size() - 1).getCalorie());
+                }
+            }
         }catch (NullPointerException e){
 
         }
