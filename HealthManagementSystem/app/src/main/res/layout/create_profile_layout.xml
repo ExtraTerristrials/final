@@ -32,7 +32,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="profilename"
+                android:hint="profilename"
+                android:textColorHint="@color/colorGray"
                 android:textAlignment="center"
                 android:ems="10"
                 android:id="@+id/edit_profilename"
@@ -58,7 +59,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="Age"
+                android:hint="Age"
+                android:textColorHint="@color/colorGray"
                 android:ems="10"
                 android:background="@drawable/edit_text_background"
                 android:textColor="@color/colorGray"
@@ -169,7 +171,8 @@
                 android:textColor="@color/colorGray"
                 android:textStyle="italic"
                 android:layout_centerHorizontal="true"
-                android:text="mobile number" />
+                android:hint="mobile number"
+                android:textColorHint="@color/colorGray"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -195,7 +198,8 @@
                 android:id="@+id/edit_email"
                 android:layout_below="@+id/profileemail"
                 android:layout_centerHorizontal="true"
-                android:text="email" />
+                android:hint="email"
+                android:textColorHint="@color/colorGray"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
