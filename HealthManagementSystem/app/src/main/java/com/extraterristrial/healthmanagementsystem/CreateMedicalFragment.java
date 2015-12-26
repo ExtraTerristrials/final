@@ -109,6 +109,7 @@ public class CreateMedicalFragment extends Fragment {
         medicalInformation.setContacts(editMedicalContacts.getText().toString());
         medicalInformation.setEmail(editMedicalEmail.getText().toString());
         medicalInformation.setWebpage(editMedicalWebsite.getText().toString());
+        medicalInformation.setMedicalPic(BitmapFactory.decodeResource(getResources(),R.mipmap.noimage));
         medicalInformation.setProfile_id(profile_id);
         medicalDetabase.InsertMedicalInfo(medicalInformation);
     }

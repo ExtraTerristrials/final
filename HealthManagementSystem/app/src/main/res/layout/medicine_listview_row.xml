@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list_name"
+        android:id="@+id/listName"
         android:layout_toRightOf="@+id/list_image"
         android:text="Esomep 20"
         android:textStyle="italic"
@@ -28,9 +28,9 @@
         android:textStyle="italic"
         android:textColor="@color/colorGreen"
         android:textSize="20sp"
-        android:layout_below="@+id/list_name"
+        android:layout_below="@+id/listName"
         android:gravity="center"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="10dp"/>
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"

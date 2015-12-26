@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
+
+import com.extraterristrial.healthmanagementsystem.DashBoardActivity;
 import com.extraterristrial.healthmanagementsystem.R;
 import com.extraterristrial.healthmanagementsystem.databaseschema.MedicineDatabase;
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.MedicineInformation;
@@ -24,7 +26,6 @@ public class MedicineListFragment extends Fragment{
     MedicineAdapter adapter;
     MedicineDatabase mStorage;
     Toolbar lToolbar;
-    ImageButton back;
 
     protected static int profile_id;
     @Nullable
@@ -34,10 +35,16 @@ public class MedicineListFragment extends Fragment{
         medicineList=(ListView)listFragmentView.findViewById(R.id.medicine_list);
         mStorage=new MedicineDatabase(getActivity());
         ArrayList<MedicineInformation> mList=new ArrayList<>();
-        back=(ImageButton)listFragmentView.findViewById(R.id.back);
         lToolbar=(Toolbar)listFragmentView.findViewById(R.id.lToolbar);
         lToolbar.inflateMenu(R.menu.add_item_menu);
         lToolbar.setTitle("Medication");
+        lToolbar.setNavigationIcon(R.mipmap.back_button);
+        lToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().remove(MedicineListFragment.this).commit();
+            }
+        });
 
         Bundle b=getArguments();
         if(b.getString("from").equals("DashBoard")){
@@ -60,16 +67,7 @@ public class MedicineListFragment extends Fragment{
                     MedicineProfileFragment f=new MedicineProfileFragment();
                     getFragmentManager().beginTransaction().replace(R.id.detail_page_layout, f).commit();
                 }
-
                 return false;
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Click Recieved", Toast.LENGTH_SHORT).show();
-                MedicineListFragment f=MedicineListFragment.this;
-                getFragmentManager().beginTransaction().remove(f).commit();
             }
         });
     }

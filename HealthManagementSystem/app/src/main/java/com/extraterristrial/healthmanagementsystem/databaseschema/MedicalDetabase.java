@@ -61,17 +61,18 @@ public class MedicalDetabase {
         String sql="SELECT * FROM "+MEDICAL_TABLE+" WHERE "+USER_ID+" = '"+profile+"';";
         SQLiteDatabase db=dManager.getWritableInstance();
         Cursor resultSet=db.rawQuery(sql, null);
-        MedicalInformation item;
+        MedicalInformation item=new MedicalInformation();
 
-        resultSet.moveToFirst();
-        item=new MedicalInformation();
-        item.setName(resultSet.getString(resultSet.getColumnIndex(NAME)));
-        item.setAddress(resultSet.getString(resultSet.getColumnIndex(ADDRESS)));
-        item.setContacts(resultSet.getString(resultSet.getColumnIndex(CONTACT)));
-        item.setWebpage(resultSet.getString(resultSet.getColumnIndex(WEBPAGE)));
-        item.setEmail(resultSet.getString(resultSet.getColumnIndex(M_MAIL)));
-        byte[] arr=resultSet.getBlob(resultSet.getColumnIndex(MEDICAL_PIC));
-        item.setMedicalPic(BitmapFactory.decodeByteArray(arr, 0, arr.length));
+        if(resultSet.moveToFirst()){
+            item.setName(resultSet.getString(resultSet.getColumnIndex(NAME)));
+            item.setAddress(resultSet.getString(resultSet.getColumnIndex(ADDRESS)));
+            item.setContacts(resultSet.getString(resultSet.getColumnIndex(CONTACT)));
+            item.setWebpage(resultSet.getString(resultSet.getColumnIndex(WEBPAGE)));
+            item.setEmail(resultSet.getString(resultSet.getColumnIndex(M_MAIL)));
+            byte[] arr=resultSet.getBlob(resultSet.getColumnIndex(MEDICAL_PIC));
+            item.setMedicalPic(BitmapFactory.decodeByteArray(arr, 0, arr.length));
+        }
+
 
         resultSet.close();
         db.close();

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.extraterristrial.healthmanagementsystem.databaseschema.HealthDatabase;
 import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.HealthInformation;
@@ -85,7 +84,7 @@ public class CreateHealthFragment extends Fragment{
         try {
             if (healthDatabase!=null) {
                 ArrayList<HealthInformation> infoList = healthDatabase.getHealthData(profile_id);
-                while (infoList.size()>0) {
+                if (infoList.size()>0) {
                     edit_bloodpressure.setText(infoList.get(infoList.size() - 1).getBloodPressure());
                     edit_temperature.setText(infoList.get(infoList.size() - 1).getBloodGroup());
                     edit_weight.setText(infoList.get(infoList.size() - 1).getWeight());
@@ -104,7 +103,11 @@ public class CreateHealthFragment extends Fragment{
         healthInformation.setCalorie(edit_calori.getText().toString());
         healthInformation.setBloodPressure(edit_bloodpressure.getText().toString());
         healthInformation.setHeight(edit_hight.getText().toString());
-        healthInformation.setWeight(edit_weight.getText().toString());
+        if(edit_weight.getText().toString().equals("") || edit_weight.getText().toString().equals(null)){
+            healthInformation.setWeight("Unknown");
+        }else{
+            healthInformation.setWeight(edit_weight.getText().toString());
+        }
         healthInformation.setBloodGroup(edit_temperature.getText().toString());
         healthInformation.setUserId(profile_id);
         healthInformation.setDate(date);

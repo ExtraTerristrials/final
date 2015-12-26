@@ -54,7 +54,7 @@ public class MedicineProfileFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View profileView=inflater.inflate(R.layout.medication_profile_fragment, container, false);
 
-        name=(EditText)profileView.findViewById(R.id.medicine_name);
+        name=(EditText)profileView.findViewById(R.id.medicineName);
         course=(EditText)profileView.findViewById(R.id.medicine_course);
         courseChecker=(CheckBox)profileView.findViewById(R.id.course_checker);
         scheduleButton= (Button) profileView.findViewById(R.id.schedule_button);
@@ -195,8 +195,9 @@ public class MedicineProfileFragment extends Fragment{
     private boolean getValue(){
         mName=name.getText().toString();
         mCourse=course.getText().toString();
+        Toast.makeText(getActivity(),"Name = "+mName,Toast.LENGTH_SHORT).show();
         completedCourse="0";
-        dosePerDay=String.valueOf(databaseElement.size()+1);
+        dosePerDay=String.valueOf(databaseElement.size());
 
         if(mName.equals(null) || mName.equals("")){
             return false;
@@ -204,7 +205,7 @@ public class MedicineProfileFragment extends Fragment{
         if(dosePerDay.equals("0")){
             return false;
         }
-        if(mCourse.equals("") || mCourse.equals(null)){
+        if(!courseChecker.isChecked()||mCourse.equals("") || mCourse.equals(null)){
             mCourse="1";
         }
         if(medicinePic==null){

@@ -85,7 +85,7 @@ public class HealthInfoFragment extends Fragment {
         try {
             if (healthDatabase!=null) {
                 ArrayList<HealthInformation> infoList = healthDatabase.getHealthData(profile_id);
-                while (infoList.size()>0) {
+                    if (infoList.size()>0) {
                     edit_bloodpressure.setText(infoList.get(infoList.size() - 1).getBloodPressure());
                     edit_temperature.setText(infoList.get(infoList.size() - 1).getBloodGroup());
                     edit_weight.setText(infoList.get(infoList.size() - 1).getWeight());

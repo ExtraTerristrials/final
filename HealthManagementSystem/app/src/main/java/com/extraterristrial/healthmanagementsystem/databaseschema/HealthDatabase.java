@@ -32,7 +32,7 @@ public class HealthDatabase  {
 
     //table creation
     protected static final String CREATE_HEALTH_TABLE="CREATE TABLE "+HEALTH_TABLE+"("+USER_ID+" INTEGER, "+DATE+" TEXT, "
-            +BLOOD_GROUP+" TEXT, "+BLOOD_PRESSURE+" TEXT, "+HEIGHT+" TEXT, "+WEIGHT+" TEXT,"+BODY_MASS_INDEX+" TEXT, "+TEMPERATURE+" TEXT, "+CALORIE+" TEXT, PRIMARY KEY("+DATE+","+USER_ID+"));";
+            +BLOOD_GROUP+" TEXT, "+BLOOD_PRESSURE+" TEXT, "+HEIGHT+" TEXT, "+WEIGHT+" TEXT,"+BODY_MASS_INDEX+" TEXT, "+TEMPERATURE+" TEXT, "+CALORIE+" TEXT, PRIMARY KEY("+USER_ID+"));";
 
     public HealthDatabase(Context context) {
         dManager=new DatabaseManager(context,null,null,DatabaseManager.DATABASE_VERSION);
@@ -57,7 +57,7 @@ public class HealthDatabase  {
     public ArrayList<HealthInformation> getHealthData(int userID){
 
         ArrayList<HealthInformation> hList=new ArrayList<>();
-        HealthInformation hInfo=null;
+        HealthInformation hInfo;
         String sql="select * from "+HEALTH_TABLE+" where "+USER_ID+" = '"+userID+"';";
         SQLiteDatabase db=dManager.getWritableInstance();
         Cursor cursor=db.rawQuery(sql,null);
@@ -73,6 +73,7 @@ public class HealthDatabase  {
             hInfo.setHeight(cursor.getString(cursor.getColumnIndex(HEIGHT)));
             hInfo.setWeight(cursor.getString(cursor.getColumnIndex(WEIGHT)));
             hInfo.setTemperature(cursor.getString(cursor.getColumnIndex(TEMPERATURE)));
+            hInfo.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
 
             hList.add(hInfo);
             cursor.moveToNext();
@@ -92,7 +93,7 @@ public class HealthDatabase  {
         values.put(CALORIE,info.getCalorie());
 
         SQLiteDatabase db=dManager.getWritableInstance();
-        int affectedRows=db.update(HEALTH_TABLE,values,USER_ID+" = "+info.getUserId()+" and "+DATE+" = "+info.getDate(),null);
+        int affectedRows=db.update(HEALTH_TABLE,values,USER_ID+" = "+info.getUserId(),null);
         db.close();
         return affectedRows;
     }

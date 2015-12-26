@@ -27,7 +27,7 @@ public class MedicineAdapter extends ArrayAdapter<MedicineInformation> {
         ProgressBar medicineBar;
         public ViewHolder(View v){
             medicinePic= (ImageView) v.findViewById(R.id.list_image);
-            mName= (TextView) v.findViewById(R.id.list_name);
+            mName= (TextView) v.findViewById(R.id.listName);
             completedCourse= (TextView) v.findViewById(R.id.completed_course);
             dosePerDay= (TextView) v.findViewById(R.id.doseOfDay);
             course= (TextView) v.findViewById(R.id.list_course);
@@ -76,7 +76,7 @@ public class MedicineAdapter extends ArrayAdapter<MedicineInformation> {
             myHolder.course.setText(doseStr+" Dose Every Day");
         }
         myHolder.completedCourse.setText("Completed "+mInfo.get(position).getCompletedDose()+" Day/s");
-        myHolder.dosePerDay.setText("Dose No "+getTodaysDose(completedDose,doseStr)+" To Be Completed");
+        myHolder.dosePerDay.setText("Remaining Dose : "+getTodaysDose(completedDose,doseStr));
         myHolder.medicineBar.setMax(getMax(courseStr,doseStr));
         myHolder.mName.setText(mInfo.get(position).getMedicineName());
         return row;

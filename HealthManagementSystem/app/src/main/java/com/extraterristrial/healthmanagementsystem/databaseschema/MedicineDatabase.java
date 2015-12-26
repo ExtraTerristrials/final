@@ -58,7 +58,7 @@ public class MedicineDatabase {
         for(TimeQuantity tQ: mInfo.getSchedule()){
 
             values.put(USER_ID,mInfo.getProfile_id());
-            values.put(M_NAME,mInfo.getProfile_id());
+            values.put(M_NAME,mInfo.getMedicineName());
             values.put(TIME,tQ.getTime());
             values.put(M_QUANTITY,tQ.getQuantity());
             values.put(FOOD,tQ.getFoodRelation());
