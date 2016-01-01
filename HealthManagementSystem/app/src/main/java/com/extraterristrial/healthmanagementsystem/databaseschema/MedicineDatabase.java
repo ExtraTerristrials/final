@@ -21,7 +21,7 @@ public class MedicineDatabase {
         dManager=new DatabaseManager(context,null,null,DatabaseManager.DATABASE_VERSION);
     }
 
-    // tables
+    // table
     /*1*/private static final String MEDICINE_TABLE="medicine";
 
     //Coloumns of  tables
@@ -80,7 +80,7 @@ public class MedicineDatabase {
 
     public boolean DeleteUserRecord(MedicineInformation mi){
         SQLiteDatabase db = dManager.getWritableInstance();
-        int status=(int)db.delete(MEDICINE_TABLE,USER_ID+" = "+mi.getProfile_id()+" and "+M_NAME+" = "+mi.getMedicineName(),null);
+        int status=(int)db.delete(MEDICINE_TABLE,USER_ID+" = '"+mi.getProfile_id()+"' and "+M_NAME+" = '"+mi.getMedicineName()+"';",null);
         db.close();
         if(status<0){
             return false;
@@ -91,7 +91,7 @@ public class MedicineDatabase {
         SQLiteDatabase db = dManager.getWritableInstance();
         ContentValues values = new ContentValues();
         values.put(DOSE_COMPLETED, mi.getCompletedDose());
-        int status=(int)db.update(MEDICINE_TABLE,values,USER_ID+" = "+mi.getProfile_id()+" and "+M_NAME+" = "+mi.getMedicineName(),null);
+        int status=(int)db.update(MEDICINE_TABLE,values,USER_ID+" = '"+mi.getProfile_id()+"' and "+M_NAME+" = '"+mi.getMedicineName()+"';",null);
         if(status<0){
             return false;
         }
@@ -123,11 +123,42 @@ public class MedicineDatabase {
         return list;
 
     }
-    public void deleteAll(){
-        String sql="delete from "+MEDICINE_TABLE;
-        SQLiteDatabase db=dManager.getWritableInstance();
-        db.execSQL(sql);
+
+    public ArrayList<TimeQuantity> getDetailDescripTion(int profileId,String medicineName){
+        String[] coloumns={TIME,M_QUANTITY,FOOD};
+        String[] value={String.valueOf(profileId),medicineName};
+        TimeQuantity tq;
+        ArrayList<TimeQuantity> schedule=new ArrayList<>();
+        SQLiteDatabase db = dManager.getWritableInstance();
+        Cursor cursor=db.query(MEDICINE_TABLE,coloumns,USER_ID+"=? and "+M_NAME+"=?",value,null,null,null);
+        cursor.moveToFirst();
+
+        while(!cursor.isAfterLast()){
+            String time=cursor.getString(cursor.getColumnIndex(TIME));
+            String quantity=cursor.getString(cursor.getColumnIndex(M_QUANTITY));
+            String food=cursor.getString(cursor.getColumnIndex(FOOD));
+            tq=new TimeQuantity(time,quantity,food);
+            schedule.add(tq);
+
+            cursor.moveToNext();
+        }
+        cursor.close();
         db.close();
+
+        return schedule;
+    }
+
+    public boolean Update(String name,MedicineInformation updated){
+        MedicineInformation mi=new MedicineInformation();
+        mi.setProfile_id(updated.getProfile_id());
+        mi.setMedicineName(name);
+        boolean d,r;
+        d=DeleteUserRecord(mi);
+        r=StoreMedicine(updated);
+        if(d && r){
+            return true;
+        }
+        return false;
     }
 
 }

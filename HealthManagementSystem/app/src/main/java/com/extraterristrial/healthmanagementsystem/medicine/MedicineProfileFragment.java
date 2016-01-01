@@ -45,15 +45,14 @@ public class MedicineProfileFragment extends Fragment{
     ArrayList<TimeQuantity> databaseElement=new ArrayList<>();
     Bitmap medicinePic;
 
-    protected int profile_id,listPos=-1;
+    protected int listPos=-1;
 
-    private String mName,mCourse,completedCourse,dosePerDay;
+    private String mName,mCourse,completedCourse,dosePerDay,indicator,previousName;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View profileView=inflater.inflate(R.layout.medication_profile_fragment, container, false);
-
         name=(EditText)profileView.findViewById(R.id.medicineName);
         course=(EditText)profileView.findViewById(R.id.medicine_course);
         courseChecker=(CheckBox)profileView.findViewById(R.id.course_checker);
@@ -65,12 +64,14 @@ public class MedicineProfileFragment extends Fragment{
         toolbar = (Toolbar)profileView.findViewById(R.id.mToolbar);
         toolbar.setTitle("Medication");
         toolbar.inflateMenu(R.menu.save_menu);
-        new MedicineDatabase(getActivity()).deleteAll();
+        course.setVisibility(View.INVISIBLE);
 
         try{
             Bundle mBundle=getArguments();
-            profile_id=mBundle.getInt("profile_id");
-
+            indicator=mBundle.getString("from");
+            if(indicator.equals("list")){
+                DetailInfo(mBundle.getString("name"),mBundle.getString("course"));
+            }
         }catch(NullPointerException e){}
 
         camera.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +83,6 @@ public class MedicineProfileFragment extends Fragment{
                 }
             }
         });
-
-        course.setVisibility(View.INVISIBLE);
         courseChecker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -139,7 +138,6 @@ public class MedicineProfileFragment extends Fragment{
         ToolbarAction();
         return profileView;
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bundle extras = data.getExtras();
@@ -167,6 +165,7 @@ public class MedicineProfileFragment extends Fragment{
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 MedicineInformation mi=new MedicineInformation();
+
                 if(item.getItemId()==R.id.save_profile && getValue()){
                     mi.setMedicineName(mName);
                     mi.setMedicinePic(medicinePic);
@@ -175,16 +174,12 @@ public class MedicineProfileFragment extends Fragment{
                     mi.setDosePerDay(dosePerDay);
                     mi.setSchedule(databaseElement);
                     mi.setProfile_id(MedicineListFragment.profile_id);
-
-                    if(new MedicineDatabase(getActivity()).StoreMedicine(mi)){
-                        Toast.makeText(getActivity(),"Data Saved",Toast.LENGTH_SHORT).show();
-                        Bundle mBundle=new Bundle();
-                        mBundle.putString("from","Profile");
-                        MedicineListFragment f=new MedicineListFragment();
-                        f.setArguments(mBundle);
-                        getFragmentManager().beginTransaction().replace(R.id.detail_page_layout, f).commit();
+                    if(indicator.equals("add")){
+                        Save(mi);
                     }
-
+                    if(indicator.equals("list")){
+                        UpdatePreviousData(mi);
+                    }
                     return true;
                 }
                 return false;
@@ -212,5 +207,43 @@ public class MedicineProfileFragment extends Fragment{
             medicinePic= BitmapFactory.decodeResource(getResources(), R.mipmap.noimage);
         }
         return true;
+    }
+    private void DetailInfo(String medicineName,String medicineCourse){
+        name.setText(medicineName);
+        previousName=medicineName;
+        mPic.setImageBitmap(MedicineListFragment.selectedImage);
+        MedicineListFragment.selectedImage=null;
+        if(!medicineCourse.equals("1")){
+            courseChecker.setChecked(true);
+            course.setVisibility(View.VISIBLE);
+            course.setText(medicineCourse);
+        }
+        databaseElement=new MedicineDatabase(getActivity()).getDetailDescripTion(MedicineListFragment.profile_id,medicineName);
+        Toast.makeText(getActivity(),"size "+databaseElement.size(),Toast.LENGTH_SHORT).show();
+
+        for(TimeQuantity tq:databaseElement){
+            listElement.add(tq.getTime()+" "+tq.getQuantity()+" "+tq.getFoodRelation());
+        }
+        adapter.notifyDataSetChanged();
+
+    }
+    private void Save(MedicineInformation mi){
+        if(new MedicineDatabase(getActivity()).StoreMedicine(mi)){
+            Bundle mBundle=new Bundle();
+            mBundle.putString("from","Profile");
+            MedicineListFragment f=new MedicineListFragment();
+            f.setArguments(mBundle);
+            getFragmentManager().beginTransaction().replace(R.id.detail_page_layout, f).commit();
+        }
+    }
+    private void UpdatePreviousData(MedicineInformation mi) {
+        if(new MedicineDatabase(getActivity()).Update(previousName,mi)){
+            Toast.makeText(getActivity(),"Data Updated",Toast.LENGTH_SHORT).show();
+            Bundle mBundle=new Bundle();
+            mBundle.putString("from","Profile");
+            MedicineListFragment f=new MedicineListFragment();
+            f.setArguments(mBundle);
+            getFragmentManager().beginTransaction().replace(R.id.detail_page_layout, f).commit();
+        }
     }
 }

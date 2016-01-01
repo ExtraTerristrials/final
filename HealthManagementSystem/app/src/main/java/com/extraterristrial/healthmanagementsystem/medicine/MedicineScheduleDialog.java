@@ -78,7 +78,7 @@ public class MedicineScheduleDialog extends DialogFragment {
             Intent i=new Intent();
             i.putExtra("Time",getTime());
             i.putExtra("Quantity",Clarification(quantity.getText().toString())+" "+unit.getSelectedItem().toString());
-            i.putExtra("FoodRelation",foodRelation.getSelectedItem().toString());
+            i.putExtra("FoodRelation",FoodClarifier(foodRelation.getSelectedItem().toString()));
             getTargetFragment().onActivityResult(getTargetRequestCode(), 0, i);
             getDialog().dismiss();
         }
@@ -90,6 +90,12 @@ public class MedicineScheduleDialog extends DialogFragment {
         }
         if(s.equals("") || s.equals(null)){
             s="Quantity Not Provided";
+        }
+        return s;
+    }
+    private String FoodClarifier(String s){
+        if(s.equals("None of The Above")){
+            return  "";
         }
         return s;
     }
