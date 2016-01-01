@@ -99,7 +99,13 @@ public class DashBoardActivity extends AppCompatActivity {
             }break;
             case R.id.vaccin_button:
             {
-
+                Fragment vaccinFragment = new VaccinInfoFragment();
+                FragmentManager fm = getSupportFragmentManager();
+                Bundle bundle=new Bundle();
+                bundle.putInt("profile_id",profile_id);
+                vaccinFragment.setArguments(bundle);
+                FragmentTransaction ft = fm.beginTransaction().replace(R.id.detail_page_layout, vaccinFragment);
+                ft.commit();
             }break;
             case R.id.doctor_button:
             {

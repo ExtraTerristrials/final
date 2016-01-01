@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class DietInfoFragment extends Fragment {
+public class DietInfoFragment extends Fragment implements ViewPager.OnPageChangeListener{
     public static int profile_id;
     Toolbar toolbar;
     @Nullable
@@ -23,7 +23,7 @@ public class DietInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         profile_id=getArguments().getInt("profile_id");
         View view = inflater.inflate(R.layout.diet_info_layout, container, false);
-        ViewPager viewPager=(ViewPager)view.findViewById(R.id.viewPager);
+      final ViewPager viewPager=(ViewPager)view.findViewById(R.id.viewPager);
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
         toolbar.setTitle("Diet");
         toolbar.setNavigationIcon(R.mipmap.back_button);
@@ -38,26 +38,62 @@ public class DietInfoFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.add_item:
-                    {
-                        CreateDietFragment createDietFragment=new CreateDietFragment();
-                        Bundle bundle=new Bundle();
-                        bundle.putInt("profileId",profile_id);
+                switch (item.getItemId()) {
+                    case R.id.add_item: {
+                        CreateDietFragment createDietFragment = new CreateDietFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("profileId", profile_id);
                         createDietFragment.setArguments(bundle);
-                        FragmentManager fm=getActivity().getSupportFragmentManager();
-                        createDietFragment.show(fm,"diet");
-
-
-                    }break;
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        createDietFragment.show(fm, "diet");
+                    }
+                    break;
                 }
                 return true;
             }
         });
         TabLayout tab=(TabLayout)view.findViewById(R.id.tab);
-        viewPager.setAdapter(new DietPagerAdapter(getActivity().getSupportFragmentManager(),profile_id));
-        tab.setupWithViewPager(viewPager);
+        tab.addTab(tab.newTab().setText("Friday"));
+        tab.addTab(tab.newTab().setText("Saturday"));
+        tab.addTab(tab.newTab().setText("Sunday"));
+        tab.addTab(tab.newTab().setText("Monday"));
+        tab.addTab(tab.newTab().setText("Tuesday"));
+        tab.addTab(tab.newTab().setText("Wednesday"));
+        tab.addTab(tab.newTab().setText("Thursday"));
+        final DietPagerAdapter adapter=new DietPagerAdapter(getActivity().getSupportFragmentManager(),profile_id,tab.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
+        tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         return view;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

@@ -17,7 +17,7 @@ import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobject
 import java.util.ArrayList;
 
 public class DietItemFragment extends Fragment {
-    private String pageTitle;
+    String pageId;
     ListView dietList;
     TextView weekday;
     DietDatabase dietDatabase;
@@ -25,7 +25,7 @@ public class DietItemFragment extends Fragment {
     int profile;
     public static DietItemFragment newInstance(String page,int profile_id) {
         Bundle args = new Bundle();
-        args.putString("page_title", page);
+        args.putString("page_id", page);
         args.putInt("profile_id",profile_id);
         DietItemFragment fragment = new DietItemFragment();
         fragment.setArguments(args);
@@ -37,18 +37,18 @@ public class DietItemFragment extends Fragment {
         View view = inflater.inflate(R.layout.diet_item_layout, container, false);
         dietList=(ListView)view.findViewById(R.id.diet_list);
         weekday=(TextView)view.findViewById(R.id.diet_weekday);
+        dietDatabase=new DietDatabase(getActivity());
+        pageId=getArguments().getString("page_id");
+        profile=getArguments().getInt("profile_id");
         setDietData();
         return view;
     }
 
     private void setDietData() {
-        pageTitle = getArguments().getString("page_title");
-        profile=getArguments().getInt("profile_id");
-        dietDatabase=new DietDatabase(getActivity());
-        ArrayList<DietInformation> al=dietDatabase.retriveDietInfo(profile,pageTitle);
+        ArrayList<DietInformation> al=dietDatabase.retriveDietInfo(profile,pageId);
         dietListAdapter=new DietListAdapter(getActivity(),al);
         dietList.setAdapter(dietListAdapter);
-        weekday.setText(pageTitle);
+        weekday.setText(pageId);
         Toast.makeText(getActivity(),"Size Of List "+al.size(),Toast.LENGTH_SHORT).show();
         dietListAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
