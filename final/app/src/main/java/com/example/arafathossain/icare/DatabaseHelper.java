@@ -6,14 +6,17 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "iCare";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,6 +29,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DoctorProfileTable.CREATE_TABLE_QUERY);
         db.execSQL(AlarmTable.CREATE_TABLE_QUERY);
         db.execSQL(VaccineTable.CREATE_TABLE_QUERY);
+        db.execSQL(HealthTable.CREATE_HEALTH_TABLE);
+        db.execSQL(MedicalTable.CREATE_MEDICAL_TABLE);
     }
 
     @Override
@@ -40,6 +45,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(ProfileTable.CREATE_TABLE_QUERY);
         db.execSQL(DietTable.CREATE_TABLE_QUERY);
         db.execSQL(DoctorProfileTable.CREATE_TABLE_QUERY);
+        db.execSQL(HealthTable.UPGRADE_HEALTH_TABLE);
+        db.execSQL(HealthTable.CREATE_HEALTH_TABLE);
+        db.execSQL(MedicalTable.UPGRADE_MEDICAL_TABLE);
+        db.execSQL(MedicalTable.CREATE_MEDICAL_TABLE);
     }
 
     public ArrayList<Profile> getAllProfile() {
@@ -57,6 +66,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return profiles;
+    }
+    public int InsertHealthInfo(HealthInformation info){
+        SQLiteDatabase db=getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(HealthTable.PROFILE_NAME,info.getProfileName());
+        values.put(HealthTable.BLOOD_PRESSURE,info.getBloodPressure());
+        values.put(HealthTable.HEART_RATE,info.getHeart_Rate());
+        values.put(HealthTable.SLEEP,info.getSleep());
+        values.put(HealthTable.BODY_MASS_INDEX,info.getBmi());
+        values.put(HealthTable.CALORIE,info.getCalorie());
+        values.put(HealthTable.TEMPERATURE,info.getTemperature());
+
+        int status=(int)db.insert(HealthTable.HEALTH_TABLE,null,values);
+        db.close();
+        return status;
+    }
+    public void DeleteHealthData(String profileId){
+        SQLiteDatabase db = getWritableDatabase();
+        int row = db.delete(HealthTable.HEALTH_TABLE, HealthTable.PROFILE_NAME+" =?", new String[]{profileId});
+        db.close();
+    }
+    public HealthInformation getHealthData(String id){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(HealthTable.HEALTH_TABLE, null, HealthTable.PROFILE_NAME + " = ?", new String[]{id}, null, null, null);
+        HealthInformation info=new HealthInformation();
+        cursor.moveToFirst();
+
+        while(!cursor.isAfterLast()){
+            info.setBloodPressure(cursor.getString(cursor.getColumnIndex(HealthTable.BLOOD_PRESSURE)));
+            info.setBmi(cursor.getString(cursor.getColumnIndex(HealthTable.BODY_MASS_INDEX)));
+            info.setCalorie(cursor.getString(cursor.getColumnIndex(HealthTable.CALORIE)));
+            info.setHeart_Rate(cursor.getString(cursor.getColumnIndex(HealthTable.HEART_RATE)));
+            info.setSleep(cursor.getString(cursor.getColumnIndex(HealthTable.SLEEP)));
+            info.setDate(cursor.getString(cursor.getColumnIndex(HealthTable.DATE)));
+            info.setTemperature(cursor.getString(cursor.getColumnIndex(HealthTable.TEMPERATURE)));
+
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+
+        return info;
     }
 
     public Profile getProfileById(String id) {
@@ -110,6 +161,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int row = db.delete(ProfileTable.TABLE_NAME, "_id=?", new String[]{profileId});
         db.delete(DietTable.TABLE_NAME, DietTable.COLUMN_PROFILE_ID + "=?", new String[]{profileId});
         db.delete(AlarmTable.TABLE_NAME, AlarmTable.COLUMN_PROFILE_ID + "=?", new String[]{profileId});
+        DeleteHealthData(profileId);
         if (row > 0) return 1;
         return 0;
     }
@@ -294,6 +346,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return profiles;
     }
+    private byte[] getByteArray(Bitmap pic) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        pic.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+    public int InsertMedicalInfo(MedicalInformation mInfo){
+        ContentValues values=new ContentValues();
+        SQLiteDatabase db=getWritableDatabase();
+
+        values.put(MedicalTable.NAME,mInfo.getMedicalName());
+        values.put(MedicalTable.ADDRESS,mInfo.getMedicalAdress());
+        values.put(MedicalTable.CONTACT,mInfo.getMedicalContact());
+        values.put(MedicalTable.WEBPAGE,mInfo.getMedicalWeb());
+        values.put(MedicalTable.USER_ID,mInfo.getProfileId());
+        values.put(MedicalTable.MEDICAL_PIC, getByteArray(mInfo.getMedicalPic()));
+        values.put(MedicalTable.M_MAIL,mInfo.getMedicalEmail());
+        int status=(int)db.insert(MedicalTable.MEDICAL_TABLE,null,values);
+        db.close();
+        return status;
+    }
+    public MedicalInformation getMedicalData(int profile){
+        String sql="SELECT * FROM "+MedicalTable.MEDICAL_TABLE+" WHERE "+MedicalTable.USER_ID+" = '"+String.valueOf(profile)+"';";
+        SQLiteDatabase db=getWritableDatabase();
+        Cursor resultSet=db.rawQuery(sql, null);
+        MedicalInformation item=new MedicalInformation();
+
+        if(resultSet.moveToFirst()){
+            item.setMedicalName(resultSet.getString(resultSet.getColumnIndex(MedicalTable.NAME)));
+            item.setMedicalAdress(resultSet.getString(resultSet.getColumnIndex(MedicalTable.ADDRESS)));
+            item.setMedicalContact(resultSet.getString(resultSet.getColumnIndex(MedicalTable.CONTACT)));
+            item.setMedicalWeb(resultSet.getString(resultSet.getColumnIndex(MedicalTable.WEBPAGE)));
+            item.setMedicalEmail(resultSet.getString(resultSet.getColumnIndex(MedicalTable.M_MAIL)));
+            byte[] arr=resultSet.getBlob(resultSet.getColumnIndex(MedicalTable.MEDICAL_PIC));
+            item.setMedicalPic(BitmapFactory.decodeByteArray(arr, 0, arr.length));
+        }
+
+
+        resultSet.close();
+        db.close();
+
+        return item;
+    }
     public class DietTable {
         public static final String COLUMN_TIME = "time";
         public static final String COLUMN_PROFILE_ID = "profile_id";
@@ -412,4 +506,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     }
+
+    public class HealthTable{
+
+        private static final String HEALTH_TABLE="health";
+
+        //Coloumns of user table
+    /*2*/private static final String BLOOD_PRESSURE="blood_pressure";
+        /*3*/private static final String HEART_RATE="heart_rate";
+        /*4*/private static final String SLEEP="sleep";
+        /*5*/private static final String BODY_MASS_INDEX="bmi";
+        /*6*/private static final String CALORIE="calorie";
+        /*7*/private static final String PROFILE_NAME="user_id";
+        /*8*/private static final String DATE="date";
+        /*9*/private static final String TEMPERATURE="temperature";
+
+        //upgrade commands
+        protected static final String UPGRADE_HEALTH_TABLE="DROP TABLE IF EXISTS "+HEALTH_TABLE;
+
+        //table creation
+        protected static final String CREATE_HEALTH_TABLE="CREATE TABLE "+HEALTH_TABLE+"("+PROFILE_NAME+" TEXT, "+DATE+" TEXT, "
+                +BLOOD_PRESSURE+" TEXT, "+HEART_RATE+" TEXT, "+SLEEP+" TEXT,"+BODY_MASS_INDEX+
+                " TEXT, "+TEMPERATURE+" TEXT, "+CALORIE+" TEXT, PRIMARY KEY("+PROFILE_NAME+"));";
+    }
+    public class MedicalTable{
+
+        private static final String MEDICAL_TABLE="medical";
+        protected static final String UPGRADE_MEDICAL_TABLE="DROP TABLE IF EXISTS "+MEDICAL_TABLE;
+
+        private static final String NAME="medical_name";
+        private static final String WEBPAGE="url";
+        private static final String ADDRESS="address";
+        private static final String MEDICAL_PIC="medical_pic";
+        private static final String CONTACT="contact";
+        private static final String USER_ID="user_id";
+        private static final String M_MAIL="mail";
+
+        protected static final String CREATE_MEDICAL_TABLE="CREATE TABLE "+MEDICAL_TABLE+"("+NAME+" TEXT, "
+                +MEDICAL_PIC+" blob, "+WEBPAGE+" TEXT, "+M_MAIL+" TEXT, "+ADDRESS+" TEXT,"+CONTACT+" TEXT, "+USER_ID+" TEXT, PRIMARY KEY("
+                +NAME+","+USER_ID+"));";
+    }
+
 }

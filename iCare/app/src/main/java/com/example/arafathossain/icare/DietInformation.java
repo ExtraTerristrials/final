@@ -7,20 +7,19 @@ public class DietInformation {
     private String reminder;
     private String menu;
     private int id;
-
+    private String profileId;
+    public static final String ALARM_KEY_DIET="diet";
+    public static final String ACTION_DIET="diet";
     public DietInformation() {
     }
 
-    public String getProfileName() {
-        return profileName;
+    public String getProfileId() {
+        return profileId;
     }
 
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
+    public void setProfileId(String profileId) {
+        this.profileId = profileId;
     }
-
-    private String profileName;
-
 
     public String getTitle() {
         return title;

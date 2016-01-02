@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@color/colorBlack" android:layout_width="match_parent"
+    android:background="#FFFFFF" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_below="@+id/toolbar"
-        android:background="@drawable/edit_text_background_2"
+        android:background="@drawable/edittext_background_drawable"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:id="@+id/picture_medical" />
@@ -48,16 +48,16 @@
                 />
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:hint="Name"
                 android:textStyle="italic"
                 android:id="@+id/edit_medical_name"
                 android:layout_below="@+id/medical_name_icon"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorRed"
                 android:layout_weight="1"
-                android:background="@drawable/edit_text_background_2"
+                android:background="@drawable/edittext_background_drawable"
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
                 />
@@ -78,15 +78,15 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:hint="Address"
                 android:id="@+id/edit_medical_address"
                 android:layout_below="@+id/medical_address_icon"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorRed"
                 android:layout_weight="1"
-                android:background="@drawable/edit_text_background_2"
+                android:background="@drawable/edittext_background_drawable"
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 />
@@ -107,15 +107,15 @@
                 />
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:hint="Contacts"
                 android:id="@+id/edit_medical_contacts"
                 android:layout_below="@+id/medical_contacts_icon"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorRed"
                 android:layout_weight="1"
-                android:background="@drawable/edit_text_background_2"
+                android:background="@drawable/edittext_background_drawable"
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 />
@@ -136,14 +136,14 @@
                 />
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:hint="Email"
                 android:id="@+id/edit_medical_email"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:layout_below="@+id/medical_email_icon"
-                android:textColor="@color/colorPrimaryDark"
-                android:background="@drawable/edit_text_background_2"
+                android:textColor="@color/colorRed"
+                android:background="@drawable/edittext_background_drawable"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
@@ -169,8 +169,8 @@
                 android:id="@+id/edit_medical_website"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:layout_below="@+id/medical_website_icon"
-                android:textColor="@color/colorPrimaryDark"
-                android:background="@drawable/edit_text_background_2"
+                android:textColor="@color/colorRed"
+                android:background="@drawable/edittext_background_drawable"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center_horizontal"

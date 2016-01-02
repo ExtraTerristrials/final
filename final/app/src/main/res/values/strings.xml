@@ -20,8 +20,8 @@
     <string name="vaccinationInformation">Vaccination Information</string>
     <string name="generalInformation">General Information</string>
     <string name="doctorManagement">Doctor Management</string>
-    <string name="medicalHistory">Medical History</string>
-    <string name="growthInformation">Growth Information</string>
+    <string name="medicalHistory">Health History</string>
+    <string name="growthInformation">Medical Information</string>
     <string name="edit">Edit</string>
     <string name="remove">Delete</string>
     <string name="notFound">No Data Found</string>

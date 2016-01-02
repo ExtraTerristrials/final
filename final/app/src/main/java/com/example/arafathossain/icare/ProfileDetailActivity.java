@@ -33,7 +33,9 @@ import com.example.arafathossain.fragment.DoctorNewAppointmentFragment;
 import com.example.arafathossain.fragment.DoctorProfileDetailFragment;
 import com.example.arafathossain.fragment.DoctorProfileFragment;
 import com.example.arafathossain.fragment.GeneralInformationFragment;
+import com.example.arafathossain.fragment.HealthInfoFragment;
 import com.example.arafathossain.fragment.HomeProfileDetailFragment;
+import com.example.arafathossain.fragment.MedicalInfoFragment;
 import com.example.arafathossain.fragment.VaccinationInformationFragment;
 import com.example.arafathossain.fragment.VaccineDetailFragment;
 import com.example.arafathossain.interfacee.OnDietCreateListener;
@@ -201,10 +203,11 @@ public class ProfileDetailActivity extends AppCompatActivity implements DoctorPr
                 showDoctorFragment();
                 break;
             case R.id.healthHistory:
-                showHistoryFragment();
+                int uId=Integer.parseInt(getIntent().getStringExtra("profileId"));
+                showHistoryFragment(uId);
                 break;
             case R.id.growthInformation:
-                showGrowthFragment();
+                showGrowthFragment(Integer.parseInt(getIntent().getStringExtra("profileId")));
                 break;
         }
     }
@@ -267,12 +270,32 @@ public class ProfileDetailActivity extends AppCompatActivity implements DoctorPr
         menuItemClickListener = (OnMenuItemClickListener) generalFragment;
     }
 
-    public void showGrowthFragment() {
+    public void showGrowthFragment(int uId) {
+
+        MedicalInfoFragment fragment=new MedicalInfoFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        Bundle b=new Bundle();
+        b.putInt("profile_id",uId);
+        fragment.setArguments(b);
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer,fragment);
+        fragmentTransaction.commit();
 
     }
 
-    public void showHistoryFragment() {
+    public void showHistoryFragment(int uId) {
+        HealthInfoFragment fragment =new HealthInfoFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        Bundle b=new Bundle();
+        b.putInt("profile_id",uId);
+        fragment.setArguments(b);
 
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer,fragment);
+        fragmentTransaction.commit();
     }
 
     public void removeProfile() {
@@ -315,11 +338,11 @@ public class ProfileDetailActivity extends AppCompatActivity implements DoctorPr
                 drawerLayout.closeDrawers();
                 break;
             case 4:
-                showGrowthFragment();
+                showGrowthFragment(Integer.parseInt(getIntent().getStringExtra("profileId")));
                 drawerLayout.closeDrawers();
                 break;
             case 5:
-                showHistoryFragment();
+                showHistoryFragment(Integer.parseInt(getIntent().getStringExtra("profileId")));
                 drawerLayout.closeDrawers();
                 break;
 

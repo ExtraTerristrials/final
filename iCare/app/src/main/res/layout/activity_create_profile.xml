@@ -22,6 +22,7 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:scrollbars="vertical">
 
+            
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +43,6 @@
                     android:id="@+id/profileName"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/accent_material_dark"
                     android:background="@drawable/edittext_background_drawable"
                     android:inputType="text" />
             </LinearLayout>
@@ -68,7 +68,6 @@
                     android:id="@+id/userName"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/accent_material_dark"
                     android:background="@drawable/edittext_background_drawable"
                     android:inputType="text" />
             </LinearLayout>
@@ -94,7 +93,6 @@
                     android:id="@+id/email"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/accent_material_dark"
                     android:background="@drawable/edittext_background_drawable"
                     android:inputType="textEmailAddress" />
             </LinearLayout>
@@ -120,7 +118,6 @@
                     android:id="@+id/contactNo"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/accent_material_dark"
                     android:background="@drawable/edittext_background_drawable"
                     android:inputType="phone" />
             </LinearLayout>
@@ -146,7 +143,6 @@
                     android:id="@+id/dateOfBirth"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/accent_material_dark"
                     android:background="@drawable/edittext_background_drawable"
                     android:inputType="date" />
             </LinearLayout>
@@ -236,7 +232,6 @@
                     android:id="@+id/weight"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/accent_material_dark"
                     android:background="@drawable/edittext_background_drawable"
                     android:inputType="text" />
             </LinearLayout>
@@ -262,7 +257,6 @@
                     android:id="@+id/height"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/accent_material_dark"
                     android:background="@drawable/edittext_background_drawable"
                     android:inputType="text" />
             </LinearLayout>

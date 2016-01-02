@@ -1,5 +1,6 @@
 package com.example.arafathossain.fragment;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,12 +21,14 @@ import com.example.arafathossain.icare.Profile;
 import com.example.arafathossain.icare.ProfileValidation;
 import com.example.arafathossain.icare.R;
 import com.example.arafathossain.interfacee.OnMenuItemClickListener;
+import com.example.arafathossain.interfacee.OnUpdateListener;
 
 import java.util.Arrays;
 
 
 public class GeneralInformationFragment extends Fragment implements OnMenuItemClickListener {
     private Spinner bloodGroup;
+    
     private EditText profileName;
     private EditText userName;
     private EditText email;
@@ -35,10 +38,11 @@ public class GeneralInformationFragment extends Fragment implements OnMenuItemCl
     private EditText dateOfBirth;
     private RadioGroup genderGroup;
     private Profile profile;
+    private OnUpdateListener onUpdateListener;
 
-    public static GeneralInformationFragment getInstance(String profileTitle) {
+    public static GeneralInformationFragment getInstance(String profileId) {
         Bundle bundle = new Bundle();
-        bundle.putString("profileTitle", profileTitle);
+        bundle.putString("profileId", profileId);
         GeneralInformationFragment generalFragment = new GeneralInformationFragment();
         generalFragment.setArguments(bundle);
         return generalFragment;
@@ -52,6 +56,7 @@ public class GeneralInformationFragment extends Fragment implements OnMenuItemCl
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.bloodGroupList, R.layout.spinner_item);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
         bloodGroup.setAdapter(spinnerAdapter);
+
         profileName = (EditText) view.findViewById(R.id.profileName);
         userName = (EditText) view.findViewById(R.id.userName);
         email = (EditText) view.findViewById(R.id.email);
@@ -77,9 +82,12 @@ public class GeneralInformationFragment extends Fragment implements OnMenuItemCl
     }
 
     public void setValue() {
-        profile = ApplicationMain.getDatabase().getProfileByName(getArguments().getString("profileTitle"));
+        profile = ApplicationMain.getDatabase().getProfileById(getArguments().getString("profileId"));
         int position = Arrays.binarySearch(getActivity().getResources().getStringArray(R.array.bloodGroupList), profile.getBloodGroup());
         bloodGroup.setSelection(position);
+
+
+
         profileName.setText(profile.getProfileName());
         userName.setText(profile.getUserName());
         contactNo.setText(profile.getContactNo());
@@ -96,6 +104,7 @@ public class GeneralInformationFragment extends Fragment implements OnMenuItemCl
         userName.setEnabled(true);
         weight.setEnabled(true);
         height.setEnabled(true);
+
         email.setEnabled(true);
         contactNo.setEnabled(true);
         dateOfBirth.setEnabled(true);
@@ -107,8 +116,11 @@ public class GeneralInformationFragment extends Fragment implements OnMenuItemCl
 
     public void updateProfile() {
         ContentValues values = new ContentValues();
+
+       /////////////////////////////////*************************************************/////////////////////////////////
+       
         if (!profile.getProfileName().equalsIgnoreCase(profileName.getText().toString())) {
-            if (ApplicationMain.getDatabase().checkProfileName(profileName.getText().toString())) {
+            if (!ProfileValidation.validateProfileName(profileName.getText().toString())) {
                 Toast.makeText(getActivity(), "Profile name already exists", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -167,14 +179,18 @@ public class GeneralInformationFragment extends Fragment implements OnMenuItemCl
         }
         if (values.size() <= 0) {
             Toast.makeText(getActivity(), "Update complete", Toast.LENGTH_LONG).show();
+            onUpdateListener.onUpdate();
             disableAll();
         } else if (ApplicationMain.getDatabase().updateProfile(values, profile.getId()) > 0) {
+            getArguments().putString("profileTitle",profileName.getText().toString());
             Toast.makeText(getActivity(), "Update complete", Toast.LENGTH_LONG).show();
+            onUpdateListener.onUpdate();
             disableAll();
         } else Toast.makeText(getActivity(), "Unable to update", Toast.LENGTH_LONG).show();
     }
 
     public void disableAll() {
+
         profileName.setEnabled(false);
         userName.setEnabled(false);
         weight.setEnabled(false);
@@ -187,4 +203,9 @@ public class GeneralInformationFragment extends Fragment implements OnMenuItemCl
         genderGroup.getChildAt(1).setEnabled(false);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        onUpdateListener = (OnUpdateListener)activity;
+    }
 }

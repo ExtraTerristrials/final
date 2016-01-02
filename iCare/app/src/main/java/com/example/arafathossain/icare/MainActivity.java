@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private View noProfileView;
 
     private Button addProfile;
+    private Profile currentProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (resultCode == RESULT_OK && requestCode == 1) {
             setProfileAdapter();
         } else if (requestCode == 2 && resultCode == RESULT_OK) {
-            ArrayAdapter<String> adapter = (ArrayAdapter<String>) profileList.getAdapter();
-            adapter.remove(data.getStringExtra("profileName"));
+            ArrayAdapter<Profile> adapter = (ArrayAdapter<Profile>) profileList.getAdapter();
+            adapter.remove(currentProfile);
             adapter.notifyDataSetChanged();
             if (adapter.getCount() == 0) {
                 profileList.setVisibility(View.GONE);
@@ -79,18 +80,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void setProfileAdapter() {
-        ArrayList<String> strings = ApplicationMain.getDatabase().getAllProfileName();
-        if (strings != null) {
-            ArrayAdapter<String> profileAdapter = new ArrayAdapter<String>(this, R.layout.listview_item_layout, R.id.textView, strings) {
+        ArrayList<Profile> profiles = ApplicationMain.getDatabase().getAllProfile();
+        if (profiles != null) {
+            ArrayAdapter<Profile> profileAdapter = new ArrayAdapter<Profile>(this, R.layout.listview_item_layout, R.id.textView, profiles) {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     final View view = super.getView(position, convertView, parent);
+                    final Profile profile = getItem(position);
+                    ((TextView) view.findViewById(R.id.textView)).setText(profile.getProfileName());
                     ImageButton goDetail = (ImageButton) view.findViewById(R.id.goDetail);
                     goDetail.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent detailIntent = new Intent(MainActivity.this, ProfileDetailActivity.class);
-                            detailIntent.putExtra("profileName", ((TextView) view.findViewById(R.id.textView)).getText());
+                            currentProfile = profile;
+                            detailIntent.putExtra("profileId", String.valueOf(profile.getId()));
+                            detailIntent.putExtra("profileName", profile.getProfileName());
                             startActivityForResult(detailIntent, 2);
                             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                         }

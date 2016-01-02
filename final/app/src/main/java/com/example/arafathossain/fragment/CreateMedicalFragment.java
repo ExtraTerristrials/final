@@ -1,4 +1,4 @@
-package com.extraterristrial.healthmanagementsystem;
+package com.example.arafathossain.fragment;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,8 +20,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.extraterristrial.healthmanagementsystem.databaseschema.MedicalDetabase;
-import com.extraterristrial.healthmanagementsystem.databaseschema.databaseobjects.MedicalInformation;
+import com.example.arafathossain.icare.ApplicationMain;
+import com.example.arafathossain.icare.DatabaseHelper;
+import com.example.arafathossain.icare.MedicalInformation;
+import com.example.arafathossain.icare.R;
 
 /**
  * Created by Jewel on 12/22/2015.
@@ -34,7 +36,7 @@ public class CreateMedicalFragment extends Fragment {
     int profile_id;
     EditText editMedicalName,editMedicalAddress,editMedicalContacts,editMedicalEmail,editMedicalWebsite;
     MedicalInformation medicalInformation;
-    MedicalDetabase medicalDetabase;
+    DatabaseHelper medicalDetabase;
 
     @Nullable
     @Override
@@ -42,7 +44,7 @@ public class CreateMedicalFragment extends Fragment {
         View view=inflater.inflate(R.layout.create_medical_layout,container,false);
         toolbar=(Toolbar)view.findViewById(R.id.toolbar);
         medicalInformation=new MedicalInformation();
-        medicalDetabase=new MedicalDetabase(getContext());
+        medicalDetabase= ApplicationMain.getDatabase();
         editmedicalPicture=(ImageView)view.findViewById(R.id.picture_medical);
         camera=(ImageButton)view.findViewById(R.id.camera);
         gallary=(ImageButton)view.findViewById(R.id.gallary);
@@ -55,7 +57,7 @@ public class CreateMedicalFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (cameraIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivityForResult(cameraIntent, 1);
                 }
             }
@@ -93,7 +95,7 @@ public class CreateMedicalFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putInt("profile_id", profile_id);
                     medicalInfoFragment.setArguments(bundle);
-                    FragmentTransaction ft = fm.beginTransaction().replace(R.id.detail_page_layout, medicalInfoFragment);
+                    FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragmentContainer, medicalInfoFragment);
                     ft.commit();
 
                 }
@@ -104,13 +106,13 @@ public class CreateMedicalFragment extends Fragment {
     }
 
     private void saveData() {
-        medicalInformation.setName(editMedicalName.getText().toString());
-        medicalInformation.setAddress(editMedicalAddress.getText().toString());
-        medicalInformation.setContacts(editMedicalContacts.getText().toString());
-        medicalInformation.setEmail(editMedicalEmail.getText().toString());
-        medicalInformation.setWebpage(editMedicalWebsite.getText().toString());
+        medicalInformation.setMedicalName(editMedicalName.getText().toString());
+        medicalInformation.setMedicalAdress(editMedicalAddress.getText().toString());
+        medicalInformation.setMedicalContact(editMedicalContacts.getText().toString());
+        medicalInformation.setMedicalEmail(editMedicalEmail.getText().toString());
+        medicalInformation.setMedicalWeb(editMedicalWebsite.getText().toString());
         medicalInformation.setMedicalPic(BitmapFactory.decodeResource(getResources(),R.mipmap.noimage));
-        medicalInformation.setProfile_id(profile_id);
+        medicalInformation.setProfileId(String.valueOf(profile_id));
         medicalDetabase.InsertMedicalInfo(medicalInformation);
     }
 
@@ -118,11 +120,11 @@ public class CreateMedicalFragment extends Fragment {
         if (medicalInformation!=null)
         {
             medicalInformation=medicalDetabase.getMedicalData(profile_id);
-            editMedicalName.setText(medicalInformation.getName());
-            editMedicalAddress.setText(medicalInformation.getAddress());
-            editMedicalContacts.setText(medicalInformation.getContacts());
-            editMedicalEmail.setText(medicalInformation.getEmail());
-            editMedicalWebsite.setText(medicalInformation.getWebpage());
+            editMedicalName.setText(medicalInformation.getMedicalName());
+            editMedicalAddress.setText(medicalInformation.getMedicalAdress());
+            editMedicalContacts.setText(medicalInformation.getMedicalContact());
+            editMedicalEmail.setText(medicalInformation.getMedicalEmail());
+            editMedicalWebsite.setText(medicalInformation.getMedicalWeb());
             editmedicalPicture.setImageBitmap(medicalInformation.getMedicalPic());
         }
     }
