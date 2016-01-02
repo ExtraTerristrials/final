@@ -144,7 +144,7 @@
                     android:clickable="false"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:text="HIGHT"
+                    android:text="HEART_RATE"
                     android:background="@color/colorPrimaryDark"
                     android:layout_weight="1"/>
                 <EditText
@@ -165,7 +165,7 @@
                     android:textColor="@color/colorGray"
                     android:textAlignment="center"
                     android:clickable="false"
-                    android:text="Cm"
+                    android:text="bits/minute"
                     android:textStyle="italic"
                     android:textSize="20sp"
                     android:layout_weight="1"/>
@@ -291,7 +291,7 @@
                     android:clickable="false"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:text="WEIGHT"
+                    android:text="SLEEP HOUR"
                     android:background="@color/colorPrimaryDark"/>
                 <EditText
                     android:layout_width="match_parent"
@@ -311,7 +311,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/colorGray"
                     android:textAlignment="center"
-                    android:text="Kg"
+                    android:text="Hours"
                     android:textStyle="italic"
                     android:clickable="false"
                     android:textSize="20sp"/>
